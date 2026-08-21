@@ -12,6 +12,7 @@ import {
   BarChart3, 
   Sparkles,
   Send,
+  ShieldCheck,
   SmartphoneNfc
 } from 'lucide-react';
 
@@ -24,10 +25,10 @@ export const HomePage: React.FC = () => {
   } = useApp();
 
   return (
-    <div className="space-y-20 pb-16">
+    <div className="space-y-24 pb-16">
 
-      {/* Hero Banner */}
-      <section id="hero" className="relative pt-12 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* 🚀 Hero Section (#hero) */}
+      <section id="hero" className="relative pt-12 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-20">
         <div className="max-w-5xl mx-auto text-center space-y-8">
           
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-brand-500/30 text-brand-300 text-xs font-semibold shadow-lg">
@@ -80,46 +81,71 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Hardware Advantages */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-panel rounded-3xl p-8 border border-slate-800">
-          
-          <div className="mb-8 space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              Why FaithPass Mobile Beta is Practical & Cost-Effective
-            </h2>
-            <p className="text-slate-400 text-sm">
-              No laptops, monitors or external webcams needed at gates. Volunteers scan using their own Android smartphones!
+      {/* 📖 About Section (#about) */}
+      <section id="about" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+        <div className="glass-panel rounded-3xl p-8 border border-slate-800 space-y-6">
+          <div className="space-y-2">
+            <span className="px-3 py-1 rounded-full bg-brand-500/20 text-brand-400 text-xs font-bold uppercase tracking-wider">
+              About FaithPass
+            </span>
+            <h2 className="text-3xl font-extrabold text-white">What is FaithPass?</h2>
+            <p className="text-slate-300 text-sm leading-relaxed max-w-3xl">
+              FaithPass is a specialized SaaS event registration, attendance management, and participant verification platform built specifically for churches, conferences, and large Christian gatherings across Sri Lanka.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <div className="p-6 rounded-2xl bg-rose-950/20 border border-rose-900/30 space-y-3">
-              <XCircle className="w-8 h-8 text-rose-400" />
-              <h3 className="text-base font-bold text-white">No Laptops at Every Gate</h3>
-              <p className="text-xs text-slate-400">Save money and power cables. Gate volunteers do not require heavy laptop setups.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <ShieldCheck className="w-6 h-6 text-brand-400" />
+              <h3 className="font-bold text-white text-sm">Secure & Reliable</h3>
+              <p className="text-xs text-slate-400">Unique QR pass IDs prevent unauthorized entries and duplicate check-ins across multiple gate checkpoints.</p>
             </div>
-
-            <div className="p-6 rounded-2xl bg-emerald-950/20 border border-emerald-900/40 space-y-3">
-              <CheckCircle2 className="w-8 h-8 text-emerald-400" />
-              <h3 className="text-base font-bold text-white">Volunteers' Android Phones</h3>
-              <p className="text-xs text-slate-400">Install the FaithPass Scanner App on 2–5 Android phones and scan instantly.</p>
+            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <SmartphoneNfc className="w-6 h-6 text-emerald-400" />
+              <h3 className="font-bold text-white text-sm">Zero Extra Hardware</h3>
+              <p className="text-xs text-slate-400">Volunteers use their existing mobile devices without requiring laptops, webcams, or monitors at gates.</p>
             </div>
-
-            <div className="p-6 rounded-2xl bg-purple-950/20 border border-purple-900/40 space-y-3">
-              <Zap className="w-8 h-8 text-purple-400" />
-              <h3 className="text-base font-bold text-white">3 Automatic Scanner Modes</h3>
-              <p className="text-xs text-slate-400">🟢 Check-in Mode, 🔵 Check-out Mode, 🟣 Payment Collection Mode.</p>
+            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <MessageSquareText className="w-6 h-6 text-purple-400" />
+              <h3 className="font-bold text-white text-sm">SMS & Offline Friendly</h3>
+              <p className="text-xs text-slate-400">Automatic SMS distribution via SMSLenz with manual ID lookup support for non-smartphone attendees.</p>
             </div>
-
           </div>
-
         </div>
       </section>
 
-      {/* Events Showcase */}
-      <section id="events" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      {/* 🎯 Features Section (#features) */}
+      <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 scroll-mt-20">
+        <div className="text-center space-y-2">
+          <h2 className="text-3xl font-bold text-white">Platform Features</h2>
+          <p className="text-slate-400 text-sm max-w-xl mx-auto">
+            Why church organizers trust FaithPass for practical gate verification
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-6 rounded-2xl bg-rose-950/20 border border-rose-900/30 space-y-3">
+            <XCircle className="w-8 h-8 text-rose-400" />
+            <h3 className="text-base font-bold text-white">No Laptops at Every Gate</h3>
+            <p className="text-xs text-slate-400">Save money and power cables. Gate volunteers do not require heavy laptop setups.</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-emerald-950/20 border border-emerald-900/40 space-y-3">
+            <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+            <h3 className="text-base font-bold text-white">Volunteers' Android Phones</h3>
+            <p className="text-xs text-slate-400">Install the FaithPass Scanner App on 2–5 Android phones and scan instantly.</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-purple-950/20 border border-purple-900/40 space-y-3">
+            <Zap className="w-8 h-8 text-purple-400" />
+            <h3 className="text-base font-bold text-white">3 Automatic Scanner Modes</h3>
+            <p className="text-xs text-slate-400">🟢 Check-in Mode, 🔵 Check-out Mode, 🟣 Payment Collection Mode.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 📅 Events Section (#events) */}
+      <section id="events" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 scroll-mt-20">
         <div className="flex items-center justify-between border-b border-slate-800 pb-4">
           <div>
             <h2 className="text-2xl font-bold text-white">Featured Church Events</h2>
@@ -153,6 +179,41 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* 📞 Contact Section (#contact) */}
+      <section id="contact" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+        <div className="glass-panel p-8 rounded-3xl space-y-6 border border-slate-800">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-bold text-white">Contact FaithPass Support</h2>
+            <p className="text-xs text-slate-400">Questions about setting up mobile scanners for your upcoming church gathering?</p>
+          </div>
+
+          <form onSubmit={(e) => { e.preventDefault(); alert('Thank you for reaching out! FaithPass support team will contact you shortly.'); }} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Your Name</label>
+                <input type="text" placeholder="Pr. John Fernando" required className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Church / Organization</label>
+                <input type="text" placeholder="Grace Assembly" required className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500" />
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">Phone / Mobile</label>
+              <input type="tel" placeholder="077 123 4567" required className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">Message</label>
+              <textarea rows={3} placeholder="Tell us about your event date, expected attendees, and gate requirements..." required className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-brand-500" />
+            </div>
+            <button type="submit" className="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs shadow-lg shadow-brand-600/20 flex items-center justify-center gap-2">
+              <Send className="w-4 h-4" />
+              <span>Send Message</span>
+            </button>
+          </form>
         </div>
       </section>
 

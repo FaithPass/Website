@@ -23,9 +23,25 @@ export const Navbar: React.FC = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleNavClick = (view: ActiveView) => {
-    setActiveView(view);
+  const scrollToSection = (sectionId: string) => {
     setMobileMenuOpen(false);
+    
+    // If not on main homepage view, switch to home first
+    if (activeView === 'pass' || activeView === 'dashboard' || activeView === 'scanner') {
+      setActiveView('home');
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 150);
+    } else {
+      setActiveView(sectionId as ActiveView);
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
   };
 
   return (
@@ -33,7 +49,8 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleNavClick('home')}>
+          {/* Logo */}
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('hero')}>
             <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-blue-700 text-white shadow-lg shadow-brand-600/30">
               <ShieldCheck className="w-6 h-6" />
             </div>
@@ -48,36 +65,61 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
+          {/* Desktop Navigation Links with Smooth Scroll */}
           <nav className="hidden md:flex items-center gap-1">
             <button
-              onClick={() => handleNavClick('home')}
+              onClick={() => scrollToSection('hero')}
               className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeView === 'home' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                activeView === 'home' || activeView === 'hero' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
               }`}
             >
               Home
             </button>
+
             <button
-              onClick={() => handleNavClick('features')}
+              onClick={() => scrollToSection('features')}
               className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeView === 'features' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
               }`}
             >
               Features
             </button>
+
             <button
-              onClick={() => handleNavClick('events')}
+              onClick={() => scrollToSection('events')}
               className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeView === 'events' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
               }`}
             >
               Events
             </button>
+
+            <button
+              onClick={() => scrollToSection('about')}
+              className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeView === 'about' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+              }`}
+            >
+              About
+            </button>
+
+            <button
+              onClick={() => scrollToSection('contact')}
+              className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeView === 'contact' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+              }`}
+            >
+              Contact
+            </button>
           </nav>
 
+          {/* App Switchers & Actions */}
           <div className="hidden lg:flex items-center gap-2.5">
             <button
-              onClick={() => handleNavClick('scanner')}
+              onClick={() => {
+                setActiveView('scanner');
+                setMobileMenuOpen(false);
+              }}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
                 activeView === 'scanner'
                   ? 'bg-emerald-600 text-white border-emerald-500 shadow-lg shadow-emerald-600/30'
@@ -89,7 +131,10 @@ export const Navbar: React.FC = () => {
             </button>
 
             <button
-              onClick={() => handleNavClick('dashboard')}
+              onClick={() => {
+                setActiveView('dashboard');
+                setMobileMenuOpen(false);
+              }}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
                 activeView === 'dashboard'
                   ? 'bg-brand-600 text-white border-brand-500 shadow-lg shadow-brand-600/30'
@@ -133,6 +178,7 @@ export const Navbar: React.FC = () => {
             )}
           </div>
 
+          {/* Mobile menu toggle */}
           <div className="flex lg:hidden items-center gap-2">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -144,6 +190,54 @@ export const Navbar: React.FC = () => {
 
         </div>
       </div>
+
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden glass-panel border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
+          <button
+            onClick={() => scrollToSection('hero')}
+            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800"
+          >
+            Home
+          </button>
+          <button
+            onClick={() => scrollToSection('features')}
+            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800"
+          >
+            Features
+          </button>
+          <button
+            onClick={() => scrollToSection('events')}
+            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800"
+          >
+            Events
+          </button>
+          <button
+            onClick={() => scrollToSection('about')}
+            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800"
+          >
+            About
+          </button>
+          <button
+            onClick={() => {
+              setActiveView('dashboard');
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-brand-400 bg-brand-950/40 border border-brand-800/40"
+          >
+            Admin Software
+          </button>
+          <button
+            onClick={() => {
+              setActiveView('scanner');
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-950/40 border border-emerald-800/40"
+          >
+            Mobile Scanner App
+          </button>
+        </div>
+      )}
     </header>
   );
 };
