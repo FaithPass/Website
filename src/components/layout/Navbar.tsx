@@ -36,7 +36,9 @@ export const Navbar: React.FC = () => {
         }
       }, 150);
     } else {
-      setActiveView(sectionId as ActiveView);
+      if (['home', 'events', 'features', 'about', 'contact'].includes(sectionId)) {
+        setActiveView(sectionId as ActiveView);
+      }
       const el = document.getElementById(sectionId);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -65,12 +67,12 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Desktop Navigation Links with Smooth Scroll */}
+          {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-1">
             <button
               onClick={() => scrollToSection('hero')}
               className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeView === 'home' || activeView === 'hero' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                activeView === 'home' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
               }`}
             >
               Home
