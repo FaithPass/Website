@@ -8,7 +8,8 @@ import {
   Menu, 
   X, 
   Ticket, 
-  Smartphone
+  Smartphone,
+  ChevronDown
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -26,7 +27,6 @@ export const Navbar: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     setMobileMenuOpen(false);
     
-    // If not on main homepage view, switch to home first
     if (activeView === 'pass' || activeView === 'dashboard' || activeView === 'scanner') {
       setActiveView('home');
       setTimeout(() => {
@@ -47,32 +47,34 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full glass-panel border-b border-slate-800/80">
+    <header className="sticky top-0 z-40 w-full bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 gap-4">
           
-          {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('hero')}>
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-blue-700 text-white shadow-lg shadow-brand-600/30">
-              <ShieldCheck className="w-6 h-6" />
+          {/* 🛡️ Left: Brand Logo & Beta Pill */}
+          <div 
+            className="flex items-center gap-2.5 cursor-pointer shrink-0" 
+            onClick={() => scrollToSection('hero')}
+          >
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-blue-600 text-white shadow-md shadow-brand-600/30">
+              <ShieldCheck className="w-5 h-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xl font-bold tracking-tight text-white">FaithPass</span>
-                <span className="px-1.5 py-0.5 text-[10px] font-semibold tracking-wide uppercase rounded bg-brand-500/20 text-brand-400 border border-brand-500/30">
-                  Beta v1.0
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-400 hidden sm:block">Register. Verify. Gather.</p>
+            <div className="flex items-center gap-2">
+              <span className="text-lg font-extrabold tracking-tight text-white">FaithPass</span>
+              <span className="px-1.5 py-0.5 text-[9px] font-bold tracking-wider uppercase rounded-md bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                Beta
+              </span>
             </div>
           </div>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1">
+          {/* 🧭 Center: Spacious Navigation Links (Visible on xl screens or large displays) */}
+          <nav className="hidden xl:flex items-center gap-1">
             <button
               onClick={() => scrollToSection('hero')}
-              className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeView === 'home' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'home' 
+                  ? 'bg-slate-800 text-white shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Home
@@ -80,8 +82,10 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('features')}
-              className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeView === 'features' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'features' 
+                  ? 'bg-slate-800 text-white shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Features
@@ -89,8 +93,10 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('events')}
-              className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeView === 'events' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'events' 
+                  ? 'bg-slate-800 text-white shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Events
@@ -98,8 +104,10 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('about')}
-              className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeView === 'about' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'about' 
+                  ? 'bg-slate-800 text-white shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               About
@@ -107,64 +115,71 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('contact')}
-              className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeView === 'contact' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'contact' 
+                  ? 'bg-slate-800 text-white shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Contact
             </button>
           </nav>
 
-          {/* App Switchers & Actions */}
-          <div className="hidden lg:flex items-center gap-2.5">
+          {/* ⚡ Right: Clean Action Buttons & Profile */}
+          <div className="hidden md:flex items-center gap-2 shrink-0">
+            
+            {/* Scanner Button */}
             <button
               onClick={() => {
                 setActiveView('scanner');
                 setMobileMenuOpen(false);
               }}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                 activeView === 'scanner'
-                  ? 'bg-emerald-600 text-white border-emerald-500 shadow-lg shadow-emerald-600/30'
-                  : 'bg-emerald-950/40 text-emerald-400 border-emerald-700/50 hover:bg-emerald-900/40'
+                  ? 'bg-emerald-600 text-white border-emerald-500 shadow-md'
+                  : 'bg-slate-900 text-emerald-400 border-slate-800 hover:bg-emerald-950/40 hover:border-emerald-800/60'
               }`}
             >
-              <Smartphone className="w-4 h-4" />
-              <span>Mobile Scanner</span>
+              <Smartphone className="w-3.5 h-3.5" />
+              <span>Scanner</span>
             </button>
 
+            {/* Admin Software Button */}
             <button
               onClick={() => {
                 setActiveView('dashboard');
                 setMobileMenuOpen(false);
               }}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                 activeView === 'dashboard'
-                  ? 'bg-brand-600 text-white border-brand-500 shadow-lg shadow-brand-600/30'
-                  : 'bg-slate-800/80 text-slate-200 border-slate-700 hover:bg-slate-800'
+                  ? 'bg-brand-600 text-white border-brand-500 shadow-md'
+                  : 'bg-slate-900 text-slate-300 border-slate-800 hover:bg-slate-800'
               }`}
             >
-              <LayoutDashboard className="w-4 h-4" />
-              <span>Admin Software</span>
+              <LayoutDashboard className="w-3.5 h-3.5 text-brand-400" />
+              <span>Admin</span>
             </button>
 
+            {/* Register Primary Button */}
             <button
               onClick={() => setIsRegisterModalOpen(true)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-brand-600 to-blue-600 text-white shadow-md shadow-brand-600/20"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-brand-600 to-blue-600 hover:from-brand-500 hover:to-blue-500 text-white shadow-md shadow-brand-600/20 transition-all hover:scale-[1.02]"
             >
-              <Ticket className="w-4 h-4" />
-              <span>Register Now</span>
+              <Ticket className="w-3.5 h-3.5" />
+              <span>Register</span>
             </button>
 
+            {/* Profile Status */}
             {currentUser ? (
               <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
                 <div className="text-right">
-                  <p className="text-xs font-semibold text-white leading-tight">{currentUser.name}</p>
-                  <p className="text-[10px] text-brand-400 uppercase font-medium">{currentUser.role.replace('_', ' ')}</p>
+                  <p className="text-xs font-bold text-white leading-tight">{currentUser.name}</p>
+                  <p className="text-[9px] text-brand-400 font-semibold uppercase">{currentUser.role.replace('_', ' ')}</p>
                 </div>
                 <button
                   onClick={logout}
                   title="Log out"
-                  className="p-2 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-colors"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -172,71 +187,82 @@ export const Navbar: React.FC = () => {
             ) : (
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/60 border border-slate-700/60"
+                className="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800"
               >
-                <User className="w-4 h-4" />
-                <span>Login</span>
+                Login
               </button>
             )}
           </div>
 
-          {/* Mobile menu toggle */}
-          <div className="flex lg:hidden items-center gap-2">
+          {/* Mobile Menu Toggle Button */}
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={() => setIsRegisterModalOpen(true)}
+              className="px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white"
+            >
+              Register
+            </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800"
+              className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
 
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden glass-panel border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
-          <button
-            onClick={() => scrollToSection('hero')}
-            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800"
-          >
-            Home
-          </button>
-          <button
-            onClick={() => scrollToSection('features')}
-            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800"
-          >
-            Features
-          </button>
-          <button
-            onClick={() => scrollToSection('events')}
-            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800"
-          >
-            Events
-          </button>
-          <button
-            onClick={() => scrollToSection('about')}
-            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800"
-          >
-            About
-          </button>
+        <div className="md:hidden glass-panel border-b border-slate-800 px-4 pt-3 pb-6 space-y-2 animate-fadeIn">
+          <div className="grid grid-cols-2 gap-2 mb-3">
+            <button
+              onClick={() => scrollToSection('hero')}
+              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => scrollToSection('features')}
+              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+            >
+              Features
+            </button>
+            <button
+              onClick={() => scrollToSection('events')}
+              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+            >
+              Events
+            </button>
+            <button
+              onClick={() => scrollToSection('about')}
+              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+            >
+              About
+            </button>
+          </div>
+
           <button
             onClick={() => {
               setActiveView('dashboard');
               setMobileMenuOpen(false);
             }}
-            className="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-brand-400 bg-brand-950/40 border border-brand-800/40"
+            className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-brand-400 bg-brand-950/40 border border-brand-800/40 flex items-center justify-between"
           >
-            Admin Software
+            <span>Admin Software</span>
+            <LayoutDashboard className="w-4 h-4" />
           </button>
+
           <button
             onClick={() => {
               setActiveView('scanner');
               setMobileMenuOpen(false);
             }}
-            className="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-950/40 border border-emerald-800/40"
+            className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 flex items-center justify-between"
           >
-            Mobile Scanner App
+            <span>Mobile Scanner App</span>
+            <Smartphone className="w-4 h-4" />
           </button>
         </div>
       )}
