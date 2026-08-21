@@ -9,7 +9,8 @@ import {
   X, 
   Ticket, 
   Smartphone,
-  ChevronDown
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -36,7 +37,7 @@ export const Navbar: React.FC = () => {
         }
       }, 150);
     } else {
-      if (['home', 'events', 'features', 'about', 'contact'].includes(sectionId)) {
+      if (['home', 'events', 'features', 'how-it-works', 'pricing', 'about', 'contact'].includes(sectionId)) {
         setActiveView(sectionId as ActiveView);
       }
       const el = document.getElementById(sectionId);
@@ -47,11 +48,11 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
+    <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-xl border-b border-slate-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           
-          {/* 🛡️ Left: Brand Logo & Beta Pill */}
+          {/* 🛡️ Left: FaithPass Corporate SaaS Logo */}
           <div 
             className="flex items-center gap-2.5 cursor-pointer shrink-0" 
             onClick={() => scrollToSection('hero')}
@@ -60,21 +61,19 @@ export const Navbar: React.FC = () => {
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-extrabold tracking-tight text-white">FaithPass</span>
-              <span className="px-1.5 py-0.5 text-[9px] font-bold tracking-wider uppercase rounded-md bg-brand-500/10 text-brand-400 border border-brand-500/20">
-                Beta
+              <span className="text-xl font-black tracking-tight text-white">FaithPass</span>
+              <span className="px-1.5 py-0.5 text-[9px] font-bold tracking-wider uppercase rounded bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                SaaS Beta
               </span>
             </div>
           </div>
 
-          {/* 🧭 Center: Spacious Navigation Links (Visible on xl screens or large displays) */}
+          {/* 🧭 Center: Professional Corporate Navigation */}
           <nav className="hidden xl:flex items-center gap-1">
             <button
               onClick={() => scrollToSection('hero')}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'home' 
-                  ? 'bg-slate-800 text-white shadow-sm' 
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                activeView === 'home' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Home
@@ -83,52 +82,53 @@ export const Navbar: React.FC = () => {
             <button
               onClick={() => scrollToSection('features')}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'features' 
-                  ? 'bg-slate-800 text-white shadow-sm' 
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                activeView === 'features' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Features
             </button>
 
             <button
+              onClick={() => scrollToSection('how-it-works')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'how-it-works' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+              }`}
+            >
+              How It Works
+            </button>
+
+            <button
               onClick={() => scrollToSection('events')}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'events' 
-                  ? 'bg-slate-800 text-white shadow-sm' 
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                activeView === 'events' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Events
             </button>
 
             <button
-              onClick={() => scrollToSection('about')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'about' 
-                  ? 'bg-slate-800 text-white shadow-sm' 
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-              }`}
+              onClick={() => scrollToSection('pricing')}
+              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/40 inline-flex items-center gap-1.5"
             >
-              About
+              <span>Pricing</span>
+              <span className="px-1.5 py-0.2 text-[8px] font-bold uppercase rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                Coming Soon
+              </span>
             </button>
 
             <button
               onClick={() => scrollToSection('contact')}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'contact' 
-                  ? 'bg-slate-800 text-white shadow-sm' 
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                activeView === 'contact' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Contact
             </button>
           </nav>
 
-          {/* ⚡ Right: Clean Action Buttons & Profile */}
+          {/* ⚡ Right: Action Buttons & Get Started */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
             
-            {/* Scanner Button */}
             <button
               onClick={() => {
                 setActiveView('scanner');
@@ -137,14 +137,13 @@ export const Navbar: React.FC = () => {
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                 activeView === 'scanner'
                   ? 'bg-emerald-600 text-white border-emerald-500 shadow-md'
-                  : 'bg-slate-900 text-emerald-400 border-slate-800 hover:bg-emerald-950/40 hover:border-emerald-800/60'
+                  : 'bg-slate-900 text-emerald-400 border-slate-800 hover:bg-emerald-950/40'
               }`}
             >
               <Smartphone className="w-3.5 h-3.5" />
-              <span>Scanner</span>
+              <span>Mobile Scanner</span>
             </button>
 
-            {/* Admin Software Button */}
             <button
               onClick={() => {
                 setActiveView('dashboard');
@@ -157,19 +156,10 @@ export const Navbar: React.FC = () => {
               }`}
             >
               <LayoutDashboard className="w-3.5 h-3.5 text-brand-400" />
-              <span>Admin</span>
+              <span>Admin App</span>
             </button>
 
-            {/* Register Primary Button */}
-            <button
-              onClick={() => setIsRegisterModalOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-brand-600 to-blue-600 hover:from-brand-500 hover:to-blue-500 text-white shadow-md shadow-brand-600/20 transition-all hover:scale-[1.02]"
-            >
-              <Ticket className="w-3.5 h-3.5" />
-              <span>Register</span>
-            </button>
-
-            {/* Profile Status */}
+            {/* Login Link */}
             {currentUser ? (
               <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
                 <div className="text-right">
@@ -192,15 +182,25 @@ export const Navbar: React.FC = () => {
                 Login
               </button>
             )}
+
+            {/* Primary Get Started Button (Client Request) */}
+            <button
+              onClick={() => setIsRegisterModalOpen(true)}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-extrabold bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white shadow-lg shadow-brand-600/30 transition-all hover:scale-[1.02]"
+            >
+              <span>Get Started</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+
           </div>
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Mobile Drawer Toggle */}
           <div className="flex md:hidden items-center gap-2">
             <button
               onClick={() => setIsRegisterModalOpen(true)}
               className="px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white"
             >
-              Register
+              Get Started
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -213,7 +213,7 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="md:hidden glass-panel border-b border-slate-800 px-4 pt-3 pb-6 space-y-2 animate-fadeIn">
           <div className="grid grid-cols-2 gap-2 mb-3">
@@ -230,16 +230,16 @@ export const Navbar: React.FC = () => {
               Features
             </button>
             <button
+              onClick={() => scrollToSection('how-it-works')}
+              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+            >
+              How It Works
+            </button>
+            <button
               onClick={() => scrollToSection('events')}
               className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
             >
               Events
-            </button>
-            <button
-              onClick={() => scrollToSection('about')}
-              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
-            >
-              About
             </button>
           </div>
 
@@ -250,7 +250,7 @@ export const Navbar: React.FC = () => {
             }}
             className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-brand-400 bg-brand-950/40 border border-brand-800/40 flex items-center justify-between"
           >
-            <span>Admin Software</span>
+            <span>Admin Dashboard</span>
             <LayoutDashboard className="w-4 h-4" />
           </button>
 
