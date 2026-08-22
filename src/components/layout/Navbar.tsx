@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useApp, ActiveView } from '../../context/AppContext';
-import { 
-  ShieldCheck, 
-  LayoutDashboard, 
-  User, 
-  LogOut, 
-  Menu, 
-  X, 
-  Ticket, 
+import {
+  ShieldCheck,
+  LayoutDashboard,
+  User,
+  LogOut,
+  Menu,
+  X,
+  Ticket,
   Smartphone,
   ChevronDown,
   ArrowRight,
@@ -15,13 +15,13 @@ import {
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
-  const { 
-    activeView, 
-    setActiveView, 
-    currentUser, 
-    setIsLoginModalOpen, 
+  const {
+    activeView,
+    setActiveView,
+    currentUser,
+    setIsLoginModalOpen,
     setIsRegisterModalOpen,
-    logout 
+    logout
   } = useApp();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -34,7 +34,7 @@ export const Navbar: React.FC = () => {
     }
 
     const sectionIds = ['hero', 'features', 'how-it-works', 'pricing', 'events', 'contact'];
-    
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 120; // 120px offset for sticky header
 
@@ -62,7 +62,7 @@ export const Navbar: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     setMobileMenuOpen(false);
     setAppsDropdownOpen(false);
-    
+
     const mappedView = sectionId === 'hero' ? 'home' : (sectionId as ActiveView);
     setActiveView(mappedView);
 
@@ -86,10 +86,10 @@ export const Navbar: React.FC = () => {
     <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-2xl border-b border-slate-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
+
           {/* 🛡️ Left: Minimal Brand Logo */}
-          <div 
-            className="flex items-center gap-2.5 cursor-pointer shrink-0" 
+          <div
+            className="flex items-center gap-2.5 cursor-pointer shrink-0"
             onClick={() => scrollToSection('hero')}
           >
             <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-blue-600 text-white shadow-md shadow-brand-600/30">
@@ -102,55 +102,40 @@ export const Navbar: React.FC = () => {
           <nav className="hidden lg:flex items-center gap-2">
             <button
               onClick={() => scrollToSection('hero')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'home' 
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'home'
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
                   : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-              }`}
+                }`}
             >
               Home
             </button>
 
             <button
               onClick={() => scrollToSection('features')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'features' 
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'features'
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
                   : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-              }`}
+                }`}
             >
               Features
             </button>
 
             <button
               onClick={() => scrollToSection('how-it-works')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'how-it-works' 
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'how-it-works'
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
                   : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-              }`}
+                }`}
             >
               How It Works
             </button>
 
             <button
-              onClick={() => scrollToSection('events')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'events' 
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-              }`}
-            >
-              Events
-            </button>
-
-            <button
               onClick={() => scrollToSection('pricing')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1.5 ${
-                activeView === 'pricing' 
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1.5 ${activeView === 'pricing'
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
                   : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-              }`}
+                }`}
             >
               <span>Pricing</span>
               <span className="px-1.5 py-0.2 text-[8px] font-bold uppercase rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
@@ -159,12 +144,21 @@ export const Navbar: React.FC = () => {
             </button>
 
             <button
-              onClick={() => scrollToSection('contact')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'contact' 
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+              onClick={() => scrollToSection('events')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'events'
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
                   : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-              }`}
+                }`}
+            >
+              Events
+            </button>
+
+            <button
+              onClick={() => scrollToSection('contact')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'contact'
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                }`}
             >
               Contact
             </button>
@@ -172,16 +166,15 @@ export const Navbar: React.FC = () => {
 
           {/* ⚡ Right Side: Apps Dropdown & Primary CTA */}
           <div className="hidden md:flex items-center gap-3 shrink-0">
-            
+
             {/* Platform Apps Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setAppsDropdownOpen(!appsDropdownOpen)}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
-                  activeView === 'scanner' || activeView === 'dashboard'
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all ${activeView === 'scanner' || activeView === 'dashboard'
                     ? 'bg-brand-950/90 text-brand-300 border-brand-600/70 shadow-md'
                     : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:bg-slate-800'
-                }`}
+                  }`}
               >
                 <AppWindow className="w-3.5 h-3.5 text-brand-400" />
                 <span>Launch Apps</span>
