@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp, ActiveView } from '../../context/AppContext';
 import { 
   ShieldCheck, 
@@ -27,10 +27,45 @@ export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [appsDropdownOpen, setAppsDropdownOpen] = useState(false);
 
+  // 📜 ScrollSpy: Automatically update active nav highlight as user scrolls up/down
+  useEffect(() => {
+    if (activeView === 'pass' || activeView === 'dashboard' || activeView === 'scanner') {
+      return;
+    }
+
+    const sectionIds = ['hero', 'features', 'how-it-works', 'pricing', 'events', 'contact'];
+    
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 120; // 120px offset for sticky header
+
+      for (const sectionId of sectionIds) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            const mappedView = sectionId === 'hero' ? 'home' : (sectionId as ActiveView);
+            if (activeView !== mappedView) {
+              setActiveView(mappedView);
+            }
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeView, setActiveView]);
+
   const scrollToSection = (sectionId: string) => {
     setMobileMenuOpen(false);
     setAppsDropdownOpen(false);
     
+    const mappedView = sectionId === 'hero' ? 'home' : (sectionId as ActiveView);
+    setActiveView(mappedView);
+
     if (activeView === 'pass' || activeView === 'dashboard' || activeView === 'scanner') {
       setActiveView('home');
       setTimeout(() => {
@@ -40,9 +75,6 @@ export const Navbar: React.FC = () => {
         }
       }, 150);
     } else {
-      if (['home', 'events', 'features', 'how-it-works', 'pricing', 'about', 'contact'].includes(sectionId)) {
-        setActiveView(sectionId as ActiveView);
-      }
       const el = document.getElementById(sectionId);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -51,7 +83,7 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-slate-950/85 backdrop-blur-2xl border-b border-slate-800/60">
+    <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-2xl border-b border-slate-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
@@ -66,12 +98,14 @@ export const Navbar: React.FC = () => {
             <span className="text-xl font-black tracking-tight text-white">FaithPass</span>
           </div>
 
-          {/* 🧭 Center: Spacious & Clean Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6">
+          {/* 🧭 Center: Dynamic Highlight Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-2">
             <button
               onClick={() => scrollToSection('hero')}
-              className={`text-xs font-semibold transition-colors ${
-                activeView === 'home' ? 'text-brand-400 font-bold' : 'text-slate-300 hover:text-white'
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'home' 
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Home
@@ -79,8 +113,10 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('features')}
-              className={`text-xs font-semibold transition-colors ${
-                activeView === 'features' ? 'text-brand-400 font-bold' : 'text-slate-300 hover:text-white'
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'features' 
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Features
@@ -88,8 +124,10 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('how-it-works')}
-              className={`text-xs font-semibold transition-colors ${
-                activeView === 'how-it-works' ? 'text-brand-400 font-bold' : 'text-slate-300 hover:text-white'
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'how-it-works' 
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               How It Works
@@ -97,8 +135,10 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('events')}
-              className={`text-xs font-semibold transition-colors ${
-                activeView === 'events' ? 'text-brand-400 font-bold' : 'text-slate-300 hover:text-white'
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'events' 
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Events
@@ -106,7 +146,11 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('pricing')}
-              className="text-xs font-semibold text-slate-300 hover:text-white inline-flex items-center gap-1.5"
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1.5 ${
+                activeView === 'pricing' 
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+              }`}
             >
               <span>Pricing</span>
               <span className="px-1.5 py-0.2 text-[8px] font-bold uppercase rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
@@ -116,24 +160,26 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('contact')}
-              className={`text-xs font-semibold transition-colors ${
-                activeView === 'contact' ? 'text-brand-400 font-bold' : 'text-slate-300 hover:text-white'
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'contact' 
+                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
               }`}
             >
               Contact
             </button>
           </nav>
 
-          {/* ⚡ Right Side: Clean Platform Dropdown & Primary CTA */}
+          {/* ⚡ Right Side: Apps Dropdown & Primary CTA */}
           <div className="hidden md:flex items-center gap-3 shrink-0">
             
-            {/* Platform Apps Dropdown (Clean & Uncluttered) */}
+            {/* Platform Apps Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setAppsDropdownOpen(!appsDropdownOpen)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                   activeView === 'scanner' || activeView === 'dashboard'
-                    ? 'bg-brand-950/80 text-brand-300 border-brand-700/60'
+                    ? 'bg-brand-950/90 text-brand-300 border-brand-600/70 shadow-md'
                     : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:bg-slate-800'
                 }`}
               >
@@ -256,6 +302,18 @@ export const Navbar: React.FC = () => {
               className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
             >
               Events
+            </button>
+            <button
+              onClick={() => scrollToSection('pricing')}
+              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+            >
+              Pricing
+            </button>
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+            >
+              Contact
             </button>
           </div>
 
