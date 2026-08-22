@@ -13,16 +13,14 @@ import { SmsNotificationModal } from './components/common/SmsNotificationModal';
 const MainLayout: React.FC = () => {
   const { activeView } = useApp();
 
+  const isMainWebsiteView = ['home', 'features', 'how-it-works', 'pricing', 'events', 'about', 'contact'].includes(activeView);
+
   return (
     <div className="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100">
       {activeView !== 'scanner' && <Navbar />}
 
       <main className="flex-1">
-        {activeView === 'home' && <HomePage />}
-        {activeView === 'features' && <HomePage />}
-        {activeView === 'events' && <HomePage />}
-        {activeView === 'about' && <HomePage />}
-        {activeView === 'contact' && <HomePage />}
+        {isMainWebsiteView && <HomePage />}
         
         {activeView === 'pass' && <PassView />}
         {activeView === 'dashboard' && <AdminDashboard />}
