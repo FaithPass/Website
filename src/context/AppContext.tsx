@@ -21,7 +21,7 @@ import {
 } from '../services/mockData';
 import confetti from 'canvas-confetti';
 
-export type ActiveView = 'home' | 'events' | 'features' | 'about' | 'contact' | 'dashboard' | 'pass' | 'scanner';
+export type ActiveView = 'home' | 'events' | 'features' | 'how-it-works' | 'pricing' | 'about' | 'contact' | 'dashboard' | 'pass' | 'scanner';
 
 interface AppContextType {
   activeView: ActiveView;
