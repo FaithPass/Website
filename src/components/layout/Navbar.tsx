@@ -9,8 +9,9 @@ import {
   X, 
   Ticket, 
   Smartphone,
-  Sparkles,
-  ArrowRight
+  ChevronDown,
+  ArrowRight,
+  AppWindow
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -24,9 +25,11 @@ export const Navbar: React.FC = () => {
   } = useApp();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [appsDropdownOpen, setAppsDropdownOpen] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
     setMobileMenuOpen(false);
+    setAppsDropdownOpen(false);
     
     if (activeView === 'pass' || activeView === 'dashboard' || activeView === 'scanner') {
       setActiveView('home');
@@ -48,11 +51,11 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-xl border-b border-slate-800/80">
+    <header className="sticky top-0 z-40 w-full bg-slate-950/85 backdrop-blur-2xl border-b border-slate-800/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-4">
+        <div className="flex items-center justify-between h-16">
           
-          {/* 🛡️ Left: FaithPass Corporate SaaS Logo */}
+          {/* 🛡️ Left: Minimal Brand Logo */}
           <div 
             className="flex items-center gap-2.5 cursor-pointer shrink-0" 
             onClick={() => scrollToSection('hero')}
@@ -60,20 +63,15 @@ export const Navbar: React.FC = () => {
             <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-blue-600 text-white shadow-md shadow-brand-600/30">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-black tracking-tight text-white">FaithPass</span>
-              <span className="px-1.5 py-0.5 text-[9px] font-bold tracking-wider uppercase rounded bg-brand-500/10 text-brand-400 border border-brand-500/20">
-                SaaS Beta
-              </span>
-            </div>
+            <span className="text-xl font-black tracking-tight text-white">FaithPass</span>
           </div>
 
-          {/* 🧭 Center: Professional Corporate Navigation */}
-          <nav className="hidden xl:flex items-center gap-1">
+          {/* 🧭 Center: Spacious & Clean Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-6">
             <button
               onClick={() => scrollToSection('hero')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'home' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+              className={`text-xs font-semibold transition-colors ${
+                activeView === 'home' ? 'text-brand-400 font-bold' : 'text-slate-300 hover:text-white'
               }`}
             >
               Home
@@ -81,8 +79,8 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('features')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'features' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+              className={`text-xs font-semibold transition-colors ${
+                activeView === 'features' ? 'text-brand-400 font-bold' : 'text-slate-300 hover:text-white'
               }`}
             >
               Features
@@ -90,8 +88,8 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('how-it-works')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'how-it-works' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+              className={`text-xs font-semibold transition-colors ${
+                activeView === 'how-it-works' ? 'text-brand-400 font-bold' : 'text-slate-300 hover:text-white'
               }`}
             >
               How It Works
@@ -99,8 +97,8 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('events')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'events' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+              className={`text-xs font-semibold transition-colors ${
+                activeView === 'events' ? 'text-brand-400 font-bold' : 'text-slate-300 hover:text-white'
               }`}
             >
               Events
@@ -108,56 +106,74 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => scrollToSection('pricing')}
-              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/40 inline-flex items-center gap-1.5"
+              className="text-xs font-semibold text-slate-300 hover:text-white inline-flex items-center gap-1.5"
             >
               <span>Pricing</span>
               <span className="px-1.5 py-0.2 text-[8px] font-bold uppercase rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                Coming Soon
+                Soon
               </span>
             </button>
 
             <button
               onClick={() => scrollToSection('contact')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeView === 'contact' ? 'bg-slate-800 text-white' : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+              className={`text-xs font-semibold transition-colors ${
+                activeView === 'contact' ? 'text-brand-400 font-bold' : 'text-slate-300 hover:text-white'
               }`}
             >
               Contact
             </button>
           </nav>
 
-          {/* ⚡ Right: Action Buttons & Get Started */}
-          <div className="hidden md:flex items-center gap-2 shrink-0">
+          {/* ⚡ Right Side: Clean Platform Dropdown & Primary CTA */}
+          <div className="hidden md:flex items-center gap-3 shrink-0">
             
-            <button
-              onClick={() => {
-                setActiveView('scanner');
-                setMobileMenuOpen(false);
-              }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
-                activeView === 'scanner'
-                  ? 'bg-emerald-600 text-white border-emerald-500 shadow-md'
-                  : 'bg-slate-900 text-emerald-400 border-slate-800 hover:bg-emerald-950/40'
-              }`}
-            >
-              <Smartphone className="w-3.5 h-3.5" />
-              <span>Mobile Scanner</span>
-            </button>
+            {/* Platform Apps Dropdown (Clean & Uncluttered) */}
+            <div className="relative">
+              <button
+                onClick={() => setAppsDropdownOpen(!appsDropdownOpen)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                  activeView === 'scanner' || activeView === 'dashboard'
+                    ? 'bg-brand-950/80 text-brand-300 border-brand-700/60'
+                    : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:bg-slate-800'
+                }`}
+              >
+                <AppWindow className="w-3.5 h-3.5 text-brand-400" />
+                <span>Launch Apps</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${appsDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
 
-            <button
-              onClick={() => {
-                setActiveView('dashboard');
-                setMobileMenuOpen(false);
-              }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
-                activeView === 'dashboard'
-                  ? 'bg-brand-600 text-white border-brand-500 shadow-md'
-                  : 'bg-slate-900 text-slate-300 border-slate-800 hover:bg-slate-800'
-              }`}
-            >
-              <LayoutDashboard className="w-3.5 h-3.5 text-brand-400" />
-              <span>Admin App</span>
-            </button>
+              {appsDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-56 rounded-2xl glass-panel border border-slate-700/80 p-2 shadow-2xl space-y-1 animate-fadeIn z-50">
+                  <button
+                    onClick={() => {
+                      setActiveView('scanner');
+                      setAppsDropdownOpen(false);
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-emerald-400 hover:bg-emerald-950/50 transition-colors text-left"
+                  >
+                    <Smartphone className="w-4 h-4 text-emerald-400" />
+                    <div>
+                      <p className="font-bold text-white">Mobile Scanner App</p>
+                      <p className="text-[10px] text-slate-400 font-normal">Volunteer Gate Verification</p>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveView('dashboard');
+                      setAppsDropdownOpen(false);
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-brand-400 hover:bg-brand-950/50 transition-colors text-left"
+                  >
+                    <LayoutDashboard className="w-4 h-4 text-brand-400" />
+                    <div>
+                      <p className="font-bold text-white">Admin Software</p>
+                      <p className="text-[10px] text-slate-400 font-normal">Live Metrics & Reports</p>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Login Link */}
             {currentUser ? (
@@ -177,13 +193,13 @@ export const Navbar: React.FC = () => {
             ) : (
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800"
+                className="text-xs font-semibold text-slate-300 hover:text-white px-2 py-1.5"
               >
                 Login
               </button>
             )}
 
-            {/* Primary Get Started Button (Client Request) */}
+            {/* Primary Get Started Button */}
             <button
               onClick={() => setIsRegisterModalOpen(true)}
               className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-extrabold bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white shadow-lg shadow-brand-600/30 transition-all hover:scale-[1.02]"
@@ -194,7 +210,7 @@ export const Navbar: React.FC = () => {
 
           </div>
 
-          {/* Mobile Drawer Toggle */}
+          {/* Mobile Menu Toggle */}
           <div className="flex md:hidden items-center gap-2">
             <button
               onClick={() => setIsRegisterModalOpen(true)}
@@ -213,7 +229,7 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden glass-panel border-b border-slate-800 px-4 pt-3 pb-6 space-y-2 animate-fadeIn">
           <div className="grid grid-cols-2 gap-2 mb-3">
@@ -250,7 +266,7 @@ export const Navbar: React.FC = () => {
             }}
             className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-brand-400 bg-brand-950/40 border border-brand-800/40 flex items-center justify-between"
           >
-            <span>Admin Dashboard</span>
+            <span>Admin Software</span>
             <LayoutDashboard className="w-4 h-4" />
           </button>
 

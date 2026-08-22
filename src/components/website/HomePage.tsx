@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { 
-  Ticket, 
-  Smartphone, 
-  CheckCircle2, 
-  Zap, 
-  Building2, 
-  QrCode, 
-  MessageSquareText, 
-  BarChart3, 
+import {
+  Ticket,
+  Smartphone,
+  CheckCircle2,
+  Zap,
+  Building2,
+  QrCode,
+  MessageSquareText,
+  BarChart3,
   Sparkles,
   Send,
   ShieldCheck,
@@ -24,11 +24,11 @@ import {
 } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
-  const { 
-    events, 
-    setActiveView, 
-    setIsRegisterModalOpen, 
-    openPassView 
+  const {
+    events,
+    setActiveView,
+    setIsRegisterModalOpen,
+    openPassView
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'dashboard' | 'register' | 'qrpass' | 'scanner' | 'reports'>('dashboard');
@@ -38,19 +38,19 @@ export const HomePage: React.FC = () => {
 
       {/* 🚀 Hero Section (Refined Corporate SaaS Layout) */}
       <section id="hero" className="relative pt-12 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden scroll-mt-20">
-        
+
         {/* Decorative Gradients */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] bg-gradient-to-b from-brand-600/15 via-blue-600/10 to-transparent blur-3xl -z-10 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           {/* Left Column: Headlines & Action Buttons */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border border-brand-500/30 text-brand-300 text-xs font-semibold shadow-md">
+
+            {/* <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border border-brand-500/30 text-brand-300 text-xs font-semibold shadow-md">
               <Sparkles className="w-4 h-4 text-brand-400 animate-pulse" />
               <span>FaithPass Beta v1.0 — Enterprise SaaS Platform</span>
-            </div>
+            </div> */}
 
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-[1.1]">
               Church Event Management, <span className="bg-gradient-to-r from-brand-400 via-blue-300 to-emerald-400 bg-clip-text text-transparent">Simplified.</span>
@@ -62,7 +62,7 @@ export const HomePage: React.FC = () => {
 
             {/* Client Requested Action Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-              
+
               <button
                 onClick={() => setIsRegisterModalOpen(true)}
                 className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-extrabold text-sm shadow-xl shadow-brand-600/25 hover:scale-[1.02] transition-all flex items-center justify-center gap-2.5"
@@ -84,7 +84,7 @@ export const HomePage: React.FC = () => {
             {/* Test SMS Quick Pill */}
             <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs text-slate-400">
               <span className="font-medium text-slate-300">Quick Test SMS Pass ID:</span>
-              <button 
+              <button
                 onClick={() => openPassView('FP-2027-004582')}
                 className="px-2.5 py-1 rounded-lg bg-brand-950/80 text-brand-300 font-mono font-bold border border-brand-800 hover:bg-brand-900 transition-all flex items-center gap-1.5"
               >
@@ -97,9 +97,9 @@ export const HomePage: React.FC = () => {
 
           {/* Right Column: 3D Multi-Device Graphic Illustration (Client Request) */}
           <div className="lg:col-span-5 relative">
-            
+
             <div className="relative glass-panel rounded-3xl p-6 border border-slate-700/80 shadow-2xl space-y-4">
-              
+
               {/* Laptop Dashboard Visual */}
               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2">
@@ -123,7 +123,7 @@ export const HomePage: React.FC = () => {
 
               {/* Phone QR Pass & Volunteer Scanner Visual */}
               <div className="grid grid-cols-2 gap-3">
-                
+
                 <div className="p-3.5 rounded-2xl bg-brand-950/40 border border-brand-800/40 space-y-2">
                   <div className="flex items-center justify-between text-[10px]">
                     <span className="font-bold text-brand-300">Digital Pass</span>
@@ -157,7 +157,7 @@ export const HomePage: React.FC = () => {
 
       {/* 💳 Features Section (6 Corporate SaaS Cards - Client Request) */}
       <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 scroll-mt-20">
-        
+
         <div className="text-center space-y-3">
           <span className="px-3.5 py-1 rounded-full bg-brand-500/10 text-brand-400 text-xs font-bold uppercase tracking-wider border border-brand-500/20">
             Enterprise Capabilities
@@ -171,7 +171,7 @@ export const HomePage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          
+
           {/* Card 1: Church Registration */}
           <div className="glass-card p-7 rounded-3xl hover:border-brand-500/40 transition-all space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-brand-600/20 text-brand-400 flex items-center justify-center font-bold">
@@ -244,7 +244,7 @@ export const HomePage: React.FC = () => {
 
       {/* 🔄 How It Works Section (6 Step Flow - Client Request) */}
       <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 scroll-mt-20">
-        
+
         <div className="text-center space-y-3">
           <span className="px-3.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">
             Simple 6-Step Workflow
@@ -258,7 +258,7 @@ export const HomePage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          
+
           <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-3 relative">
             <div className="w-8 h-8 rounded-xl bg-brand-600 text-white font-extrabold text-sm flex items-center justify-center">1</div>
             <h3 className="text-base font-bold text-white">Create Event</h3>
@@ -301,7 +301,7 @@ export const HomePage: React.FC = () => {
 
       {/* 📷 Screenshots Showcase Section (Client Request) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        
+
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-black text-white">Product Interface Preview</h2>
           <p className="text-slate-400 text-sm">Explore FaithPass across Admin, Web, and Mobile interfaces</p>
@@ -311,33 +311,29 @@ export const HomePage: React.FC = () => {
         <div className="flex items-center justify-center gap-2 overflow-x-auto pb-2 text-xs font-bold">
           <button
             onClick={() => setActiveTab('dashboard')}
-            className={`px-4 py-2.5 rounded-xl transition-all ${
-              activeTab === 'dashboard' ? 'bg-brand-600 text-white shadow-lg' : 'bg-slate-900 text-slate-400 hover:text-white'
-            }`}
+            className={`px-4 py-2.5 rounded-xl transition-all ${activeTab === 'dashboard' ? 'bg-brand-600 text-white shadow-lg' : 'bg-slate-900 text-slate-400 hover:text-white'
+              }`}
           >
             Admin Dashboard
           </button>
           <button
             onClick={() => setActiveTab('register')}
-            className={`px-4 py-2.5 rounded-xl transition-all ${
-              activeTab === 'register' ? 'bg-brand-600 text-white shadow-lg' : 'bg-slate-900 text-slate-400 hover:text-white'
-            }`}
+            className={`px-4 py-2.5 rounded-xl transition-all ${activeTab === 'register' ? 'bg-brand-600 text-white shadow-lg' : 'bg-slate-900 text-slate-400 hover:text-white'
+              }`}
           >
             Registration Page
           </button>
           <button
             onClick={() => setActiveTab('qrpass')}
-            className={`px-4 py-2.5 rounded-xl transition-all ${
-              activeTab === 'qrpass' ? 'bg-brand-600 text-white shadow-lg' : 'bg-slate-900 text-slate-400 hover:text-white'
-            }`}
+            className={`px-4 py-2.5 rounded-xl transition-all ${activeTab === 'qrpass' ? 'bg-brand-600 text-white shadow-lg' : 'bg-slate-900 text-slate-400 hover:text-white'
+              }`}
           >
             Digital QR Pass
           </button>
           <button
             onClick={() => setActiveTab('scanner')}
-            className={`px-4 py-2.5 rounded-xl transition-all ${
-              activeTab === 'scanner' ? 'bg-brand-600 text-white shadow-lg' : 'bg-slate-900 text-slate-400 hover:text-white'
-            }`}
+            className={`px-4 py-2.5 rounded-xl transition-all ${activeTab === 'scanner' ? 'bg-brand-600 text-white shadow-lg' : 'bg-slate-900 text-slate-400 hover:text-white'
+              }`}
           >
             Scanner App
           </button>
@@ -406,7 +402,7 @@ export const HomePage: React.FC = () => {
 
       {/* 💰 Pricing Section (Client Request: Beta Launch & Coming Soon) */}
       <section id="pricing" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 scroll-mt-20">
-        
+
         <div className="text-center space-y-2">
           <span className="px-3.5 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs font-bold uppercase tracking-wider border border-amber-500/20">
             Transparent Pricing
@@ -416,7 +412,7 @@ export const HomePage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-6">
-          
+
           {/* Beta Plan */}
           <div className="glass-panel p-8 rounded-3xl border-2 border-brand-500 space-y-6 relative">
             <span className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-brand-600 text-white text-[10px] font-extrabold uppercase">
