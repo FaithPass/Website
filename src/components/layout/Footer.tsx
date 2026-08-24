@@ -9,9 +9,11 @@ export const Footer: React.FC = () => {
         {/* Brand Column */}
         <div className="md:col-span-2 space-y-4">
           <div className="flex items-center gap-2.5">
-            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-blue-600 text-white shadow-md shadow-brand-600/30">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
+            <img 
+              src="/images/faithpass_logo.jpg" 
+              alt="FaithPass Logo" 
+              className="w-9 h-9 rounded-xl shadow-md shadow-blue-500/20 border border-blue-500/30 object-cover" 
+            />
             <span className="text-xl font-black text-white tracking-tight">FaithPass</span>
           </div>
           <p className="text-xs leading-relaxed text-slate-400 max-w-sm">

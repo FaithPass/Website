@@ -87,14 +87,16 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
-          {/* 🛡️ Left: Minimal Brand Logo */}
-          <div
-            className="flex items-center gap-2.5 cursor-pointer shrink-0"
+          {/* 🛡️ Left: Official Brand Logo */}
+          <div 
+            className="flex items-center gap-2.5 cursor-pointer shrink-0" 
             onClick={() => scrollToSection('hero')}
           >
-            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-blue-600 text-white shadow-md shadow-brand-600/30">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
+            <img 
+              src="/images/faithpass_logo.jpg" 
+              alt="FaithPass Logo" 
+              className="w-9 h-9 rounded-xl shadow-md shadow-blue-500/20 border border-blue-500/30 object-cover" 
+            />
             <span className="text-xl font-black tracking-tight text-white">FaithPass</span>
           </div>
 
