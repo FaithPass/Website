@@ -201,7 +201,11 @@ export const Navbar: React.FC = () => {
 
                   <button
                     onClick={() => {
-                      setActiveView('dashboard');
+                      if (!currentUser) {
+                        setIsLoginModalOpen(true);
+                      } else {
+                        setActiveView('dashboard');
+                      }
                       setAppsDropdownOpen(false);
                     }}
                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-brand-400 hover:bg-brand-950/50 transition-colors text-left"

@@ -29,7 +29,7 @@ export const LoginModal: React.FC = () => {
             <button
               key={r.role}
               onClick={() => loginAsRole(r.role)}
-              className="w-full p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-brand-500 text-left flex items-center gap-3"
+              className="w-full p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-brand-500 text-left flex items-center gap-3 transition-all"
             >
               <div className="p-2.5 rounded-xl bg-brand-600/20 text-brand-400">
                 <r.icon className="w-5 h-5" />
@@ -41,6 +41,23 @@ export const LoginModal: React.FC = () => {
             </button>
           ))}
         </div>
+
+        <div className="pt-2 border-t border-slate-800 text-center space-y-2">
+          <p className="text-xs text-slate-400 font-medium">Don't have an Organization SaaS Account yet?</p>
+          <button
+            onClick={() => {
+              setIsLoginModalOpen(false);
+              const pricingEl = document.getElementById('pricing');
+              if (pricingEl) {
+                pricingEl.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-xs shadow-md transition-all"
+          >
+            Subscribe to an Organization SaaS Plan
+          </button>
+        </div>
+
       </div>
     </div>
   );
