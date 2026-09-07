@@ -76,11 +76,17 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-xl glass-panel border border-slate-700 rounded-3xl p-6 sm:p-8 space-y-6 bg-slate-900/95 text-white shadow-2xl my-8">
+    <div 
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto"
+    >
+      <div 
+        onClick={e => e.stopPropagation()}
+        className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto glass-panel border border-slate-700 rounded-3xl p-6 sm:p-8 space-y-6 bg-slate-900/95 text-white shadow-2xl my-auto"
+      >
         
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        {/* Header with Prominent Close Button */}
+        <div className="flex items-center justify-between border-b border-slate-800 pb-4 sticky top-0 bg-slate-900/95 z-20 pt-1">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
               <Sparkles className="w-5 h-5" />
@@ -90,8 +96,13 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
               <p className="text-xs text-amber-300 font-semibold">{planTitles[selectedPlan]}</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 rounded-xl text-slate-400 hover:text-white bg-slate-800">
+          <button 
+            type="button"
+            onClick={onClose} 
+            className="p-2.5 rounded-xl text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 transition-all border border-slate-700 flex items-center gap-1 text-xs font-bold"
+          >
             <X className="w-5 h-5" />
+            <span>Close</span>
           </button>
         </div>
 
@@ -227,13 +238,22 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
               </div>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-4 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-extrabold text-xs shadow-xl shadow-brand-600/20"
-            >
-              {loading ? 'Activating Subscription...' : 'Pay & Activate Organization SaaS Account'}
-            </button>
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-1 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition-all"
+              >
+                Cancel / Close
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex-[2] py-3.5 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-extrabold text-xs shadow-xl shadow-brand-600/20"
+              >
+                {loading ? 'Activating Subscription...' : 'Pay & Activate SaaS Account'}
+              </button>
+            </div>
 
           </form>
         )}
