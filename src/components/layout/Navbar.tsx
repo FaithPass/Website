@@ -208,8 +208,8 @@ export const Navbar: React.FC = () => {
                   >
                     <LayoutDashboard className="w-4 h-4 text-brand-400" />
                     <div>
-                      <p className="font-bold text-white">Admin Software</p>
-                      <p className="text-[10px] text-slate-400 font-normal">Live Metrics & Reports</p>
+                      <p className="font-bold text-white">Organization Admin Portal</p>
+                      <p className="text-[10px] text-slate-400 font-normal">Events, Payouts & Gate Analytics</p>
                     </div>
                   </button>
                 </div>
@@ -319,7 +319,7 @@ export const Navbar: React.FC = () => {
             }}
             className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-brand-400 bg-brand-950/40 border border-brand-800/40 flex items-center justify-between"
           >
-            <span>Admin Software</span>
+            <span>Organization Admin Portal</span>
             <LayoutDashboard className="w-4 h-4" />
           </button>
 
