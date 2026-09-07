@@ -72,11 +72,11 @@ export const HomePage: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
 
               <button
-                onClick={() => setIsRegisterModalOpen(true)}
+                onClick={() => { setSelectedPlan('pro_monthly'); setIsSaaSCheckoutOpen(true); }}
                 className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-extrabold text-sm shadow-xl shadow-brand-600/25 hover:scale-[1.02] transition-all flex items-center justify-center gap-2.5"
               >
                 <Plus className="w-4.5 h-4.5" />
-                <span>Create an Event</span>
+                <span>Create an Event (Subscribe Plan)</span>
               </button>
 
               <button
@@ -89,16 +89,36 @@ export const HomePage: React.FC = () => {
 
             </div>
 
-            {/* Quick Pass Demo Link */}
-            <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs text-slate-400">
-              <span className="font-medium text-slate-300">Quick Test Pass ID:</span>
-              <button
-                onClick={() => openPassView('FP-2027-004582')}
-                className="px-3 py-1.5 rounded-xl bg-slate-900 text-amber-300 font-mono font-bold border border-amber-500/30 hover:bg-slate-800 transition-all flex items-center gap-2 shadow-sm"
+            {/* 🔍 Interactive Find My Ticket / QR Pass Search Bar */}
+            <div className="pt-4 space-y-2">
+              <label className="block text-xs font-bold text-amber-400 uppercase tracking-wider">
+                🔍 Already Registered? Retrieve Your Ticket Pass:
+              </label>
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const val = (e.currentTarget.elements.namedItem('passInput') as HTMLInputElement)?.value;
+                  if (val && val.trim()) {
+                    openPassView(val.trim());
+                  }
+                }}
+                className="flex items-center gap-2 max-w-md mx-auto lg:mx-0"
               >
-                <QrCode className="w-4 h-4 text-amber-400" />
-                <span>FP-2027-004582</span>
-              </button>
+                <input
+                  name="passInput"
+                  type="text"
+                  placeholder="Type Pass ID (e.g. FP-2027-153870) or Phone..."
+                  required
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 shadow-inner"
+                />
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-1.5 shadow-lg transition-all"
+                >
+                  <QrCode className="w-4 h-4 text-slate-950" />
+                  <span>Find Pass</span>
+                </button>
+              </form>
             </div>
 
           </div>
