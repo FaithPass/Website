@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp, ActiveView } from '../../context/AppContext';
+import { GetStartedModal } from '../website/GetStartedModal';
 import {
   ShieldCheck,
   LayoutDashboard,
@@ -26,6 +27,7 @@ export const Navbar: React.FC = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [appsDropdownOpen, setAppsDropdownOpen] = useState(false);
+  const [isGetStartedOpen, setIsGetStartedOpen] = useState(false);
 
   // 📜 ScrollSpy: Automatically update active nav highlight as user scrolls up/down
   useEffect(() => {
@@ -59,286 +61,304 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeView, setActiveView]);
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = (sectionId: string, viewName: ActiveView) => {
+    setActiveView(viewName);
     setMobileMenuOpen(false);
     setAppsDropdownOpen(false);
 
-    const mappedView = sectionId === 'hero' ? 'home' : (sectionId as ActiveView);
-    setActiveView(mappedView);
+    if (viewName === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
 
-    if (activeView === 'pass' || activeView === 'dashboard' || activeView === 'scanner') {
-      setActiveView('home');
-      setTimeout(() => {
-        const el = document.getElementById(sectionId);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 150);
-    } else {
-      const el = document.getElementById(sectionId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  const handleHostEventChoice = () => {
+    setIsGetStartedOpen(false);
+    const pricingEl = document.getElementById('pricing');
+    if (pricingEl) {
+      pricingEl.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      setActiveView('pricing');
+    }
+  };
+
+  const handleRegisterAttendeeChoice = () => {
+    setIsGetStartedOpen(false);
+    setIsRegisterModalOpen(true);
+  };
+
   return (
-    <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-2xl border-b border-slate-800/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <>
+      <header className="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-2xl border-b border-slate-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-20">
 
-          {/* 🛡️ Left: Official Brand Logo */}
-          <div 
-            className="flex items-center gap-2.5 cursor-pointer shrink-0" 
-            onClick={() => scrollToSection('hero')}
-          >
-            <img 
-              src="/images/faithpass_logo.jpg" 
-              alt="FaithPass Logo" 
-              className="w-9 h-9 rounded-xl shadow-md shadow-blue-500/20 border border-blue-500/30 object-cover" 
-            />
-            <span className="text-xl font-black tracking-tight text-white">FaithPass</span>
-          </div>
-
-          {/* 🧭 Center: Dynamic Highlight Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-2">
-            <button
-              onClick={() => scrollToSection('hero')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'home'
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-                }`}
+            {/* 🛡️ Left: Official Brand Logo */}
+            <div 
+              className="flex items-center gap-2.5 cursor-pointer shrink-0" 
+              onClick={() => scrollToSection('hero', 'home')}
             >
-              Home
-            </button>
-
-            <button
-              onClick={() => scrollToSection('features')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'features'
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-                }`}
-            >
-              Features
-            </button>
-
-            <button
-              onClick={() => scrollToSection('how-it-works')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'how-it-works'
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-                }`}
-            >
-              How It Works
-            </button>
-
-            <button
-              onClick={() => scrollToSection('pricing')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1.5 ${activeView === 'pricing'
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-                }`}
-            >
-              <span>Pricing</span>
-              <span className="px-1.5 py-0.2 text-[8px] font-bold uppercase rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                Soon
-              </span>
-            </button>
-
-            <button
-              onClick={() => scrollToSection('events')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'events'
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-                }`}
-            >
-              Events
-            </button>
-
-            <button
-              onClick={() => scrollToSection('contact')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'contact'
-                  ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-                }`}
-            >
-              Contact
-            </button>
-          </nav>
-
-          {/* ⚡ Right Side: Apps Dropdown & Primary CTA */}
-          <div className="hidden md:flex items-center gap-3 shrink-0">
-
-            {/* Platform Apps Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setAppsDropdownOpen(!appsDropdownOpen)}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all ${activeView === 'scanner' || activeView === 'dashboard'
-                    ? 'bg-brand-950/90 text-brand-300 border-brand-600/70 shadow-md'
-                    : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:bg-slate-800'
-                  }`}
-              >
-                <AppWindow className="w-3.5 h-3.5 text-brand-400" />
-                <span>Launch Apps</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${appsDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {appsDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-56 rounded-2xl glass-panel border border-slate-700/80 p-2 shadow-2xl space-y-1 animate-fadeIn z-50">
-                  <button
-                    onClick={() => {
-                      setActiveView('scanner');
-                      setAppsDropdownOpen(false);
-                    }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-emerald-400 hover:bg-emerald-950/50 transition-colors text-left"
-                  >
-                    <Smartphone className="w-4 h-4 text-emerald-400" />
-                    <div>
-                      <p className="font-bold text-white">Mobile Scanner App</p>
-                      <p className="text-[10px] text-slate-400 font-normal">Volunteer Gate Verification</p>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      if (!currentUser) {
-                        setIsLoginModalOpen(true);
-                      } else {
-                        setActiveView('dashboard');
-                      }
-                      setAppsDropdownOpen(false);
-                    }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-brand-400 hover:bg-brand-950/50 transition-colors text-left"
-                  >
-                    <LayoutDashboard className="w-4 h-4 text-brand-400" />
-                    <div>
-                      <p className="font-bold text-white">Organization Admin Portal</p>
-                      <p className="text-[10px] text-slate-400 font-normal">Events, Payouts & Gate Analytics</p>
-                    </div>
-                  </button>
-                </div>
-              )}
+              <img 
+                src="/images/faithpass_logo.jpg" 
+                alt="FaithPass Logo" 
+                className="w-9 h-9 rounded-xl shadow-md shadow-blue-500/20 border border-blue-500/30 object-cover" 
+              />
+              <span className="text-xl font-black tracking-tight text-white">FaithPass</span>
             </div>
 
-            {/* Login Link */}
-            {currentUser ? (
-              <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
-                <div className="text-right">
-                  <p className="text-xs font-bold text-white leading-tight">{currentUser.name}</p>
-                  <p className="text-[9px] text-brand-400 font-semibold uppercase">{currentUser.role.replace('_', ' ')}</p>
-                </div>
-                <button
-                  onClick={logout}
-                  title="Log out"
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-colors"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-              </div>
-            ) : (
+            {/* 🧭 Center: Dynamic Highlight Navigation Links */}
+            <nav className="hidden lg:flex items-center gap-2">
               <button
-                onClick={() => setIsLoginModalOpen(true)}
-                className="text-xs font-semibold text-slate-300 hover:text-white px-2 py-1.5"
+                onClick={() => scrollToSection('hero', 'home')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'home'
+                    ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                  }`}
               >
-                Login
+                Home
               </button>
-            )}
 
-            {/* Primary Get Started Button */}
-            <button
-              onClick={() => setIsRegisterModalOpen(true)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-extrabold bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white shadow-lg shadow-brand-600/30 transition-all hover:scale-[1.02]"
-            >
-              <span>Get Started</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+              <button
+                onClick={() => scrollToSection('features', 'features')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'features'
+                    ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                  }`}
+              >
+                Features
+              </button>
+
+              <button
+                onClick={() => scrollToSection('how-it-works', 'how-it-works')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'how-it-works'
+                    ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                  }`}
+              >
+                How It Works
+              </button>
+
+              <button
+                onClick={() => scrollToSection('pricing', 'pricing')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1.5 ${activeView === 'pricing'
+                    ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                  }`}
+              >
+                <span>Pricing</span>
+                <span className="px-1.5 py-0.2 text-[8px] font-bold uppercase rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  SaaS
+                </span>
+              </button>
+
+              <button
+                onClick={() => scrollToSection('events', 'events')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'events'
+                    ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                  }`}
+              >
+                Events
+              </button>
+
+              <button
+                onClick={() => scrollToSection('contact', 'contact')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeView === 'contact'
+                    ? 'bg-slate-800 text-brand-400 font-bold border border-brand-500/30 shadow-sm'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                  }`}
+              >
+                Contact
+              </button>
+            </nav>
+
+            {/* ⚡ Right Side: Apps Dropdown & Primary CTA */}
+            <div className="hidden md:flex items-center gap-3 shrink-0">
+
+              {/* Platform Apps Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setAppsDropdownOpen(!appsDropdownOpen)}
+                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all ${activeView === 'scanner' || activeView === 'dashboard'
+                      ? 'bg-brand-950/90 text-brand-300 border-brand-600/70 shadow-md'
+                      : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:bg-slate-800'
+                    }`}
+                >
+                  <AppWindow className="w-3.5 h-3.5 text-brand-400" />
+                  <span>Launch Apps</span>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${appsDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {appsDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-56 rounded-2xl glass-panel border border-slate-700/80 p-2 shadow-2xl space-y-1 animate-fadeIn z-50">
+                    <button
+                      onClick={() => {
+                        setActiveView('scanner');
+                        setAppsDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-emerald-400 hover:bg-emerald-950/50 transition-colors text-left"
+                    >
+                      <Smartphone className="w-4 h-4 text-emerald-400" />
+                      <div>
+                        <p className="font-bold text-white">Mobile Scanner App</p>
+                        <p className="text-[10px] text-slate-400 font-normal">Volunteer Gate Verification</p>
+                      </div>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        if (!currentUser) {
+                          setIsLoginModalOpen(true);
+                        } else {
+                          setActiveView('dashboard');
+                        }
+                        setAppsDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-brand-400 hover:bg-brand-950/50 transition-colors text-left"
+                    >
+                      <LayoutDashboard className="w-4 h-4 text-brand-400" />
+                      <div>
+                        <p className="font-bold text-white">Organization Admin Portal</p>
+                        <p className="text-[10px] text-slate-400 font-normal">Events, Payouts & Gate Analytics</p>
+                      </div>
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Login Link */}
+              {currentUser ? (
+                <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
+                  <div className="text-right">
+                    <p className="text-xs font-bold text-white leading-tight">{currentUser.name}</p>
+                    <p className="text-[9px] text-brand-400 font-semibold uppercase">{currentUser.role.replace('_', ' ')}</p>
+                  </div>
+                  <button
+                    onClick={logout}
+                    title="Log out"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="text-xs font-semibold text-slate-300 hover:text-white px-2 py-1.5"
+                >
+                  Login
+                </button>
+              )}
+
+              {/* Primary Get Started Button */}
+              <button
+                onClick={() => setIsGetStartedOpen(true)}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-extrabold bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white shadow-lg shadow-brand-600/30 transition-all hover:scale-[1.02]"
+              >
+                <span>Get Started</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+
+            </div>
+
+            {/* Mobile Menu Toggle */}
+            <div className="flex md:hidden items-center gap-2">
+              <button
+                onClick={() => setIsGetStartedOpen(true)}
+                className="px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white"
+              >
+                Get Started
+              </button>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
 
           </div>
-
-          {/* Mobile Menu Toggle */}
-          <div className="flex md:hidden items-center gap-2">
-            <button
-              onClick={() => setIsRegisterModalOpen(true)}
-              className="px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white"
-            >
-              Get Started
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-
         </div>
-      </div>
 
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden glass-panel border-b border-slate-800 px-4 pt-3 pb-6 space-y-2 animate-fadeIn">
-          <div className="grid grid-cols-2 gap-2 mb-3">
+        {/* Mobile Drawer Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden glass-panel border-b border-slate-800 px-4 pt-3 pb-6 space-y-2 animate-fadeIn">
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              <button
+                onClick={() => scrollToSection('hero', 'home')}
+                className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+              >
+                Home
+              </button>
+              <button
+                onClick={() => scrollToSection('features', 'features')}
+                className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => scrollToSection('how-it-works', 'how-it-works')}
+                className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+              >
+                How It Works
+              </button>
+              <button
+                onClick={() => scrollToSection('events', 'events')}
+                className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+              >
+                Events
+              </button>
+              <button
+                onClick={() => scrollToSection('pricing', 'pricing')}
+                className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+              >
+                Pricing
+              </button>
+              <button
+                onClick={() => scrollToSection('contact', 'contact')}
+                className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+              >
+                Contact
+              </button>
+            </div>
+
             <button
-              onClick={() => scrollToSection('hero')}
-              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+              onClick={() => {
+                setActiveView('dashboard');
+                setMobileMenuOpen(false);
+              }}
+              className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-brand-400 bg-brand-950/40 border border-brand-800/40 flex items-center justify-between"
             >
-              Home
+              <span>Organization Admin Portal</span>
+              <LayoutDashboard className="w-4 h-4" />
             </button>
+
             <button
-              onClick={() => scrollToSection('features')}
-              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
+              onClick={() => {
+                setActiveView('scanner');
+                setMobileMenuOpen(false);
+              }}
+              className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 flex items-center justify-between"
             >
-              Features
-            </button>
-            <button
-              onClick={() => scrollToSection('how-it-works')}
-              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
-            >
-              How It Works
-            </button>
-            <button
-              onClick={() => scrollToSection('events')}
-              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
-            >
-              Events
-            </button>
-            <button
-              onClick={() => scrollToSection('pricing')}
-              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
-            >
-              Pricing
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="px-3 py-2 rounded-xl text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 text-center"
-            >
-              Contact
+              <span>Mobile Scanner App</span>
+              <Smartphone className="w-4 h-4" />
             </button>
           </div>
+        )}
+      </header>
 
-          <button
-            onClick={() => {
-              setActiveView('dashboard');
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-brand-400 bg-brand-950/40 border border-brand-800/40 flex items-center justify-between"
-          >
-            <span>Organization Admin Portal</span>
-            <LayoutDashboard className="w-4 h-4" />
-          </button>
-
-          <button
-            onClick={() => {
-              setActiveView('scanner');
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 flex items-center justify-between"
-          >
-            <span>Mobile Scanner App</span>
-            <Smartphone className="w-4 h-4" />
-          </button>
-        </div>
-      )}
-    </header>
+      {/* Get Started Choice Modal */}
+      <GetStartedModal
+        isOpen={isGetStartedOpen}
+        onClose={() => setIsGetStartedOpen(false)}
+        onSelectHostEvent={handleHostEventChoice}
+        onSelectRegisterAttendee={handleRegisterAttendeeChoice}
+      />
+    </>
   );
 };
