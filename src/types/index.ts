@@ -20,6 +20,8 @@ export interface Church {
 
 export interface EventItem {
   id: string;
+  organizationId?: string;
+  slug?: string;
   title: string;
   date: string;
   time: string;

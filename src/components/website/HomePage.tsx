@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { SaaSCheckoutModal } from './SaaSCheckoutModal';
 import {
   Ticket,
   Smartphone,
@@ -37,6 +38,8 @@ export const HomePage: React.FC = () => {
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'dashboard' | 'register' | 'qrpass' | 'scanner' | 'reports'>('dashboard');
+  const [isSaaSCheckoutOpen, setIsSaaSCheckoutOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<'single_event' | 'pro_monthly' | 'enterprise'>('pro_monthly');
 
   return (
     <div className="space-y-28 pb-20">
@@ -535,54 +538,106 @@ export const HomePage: React.FC = () => {
 
         <div className="text-center space-y-2">
           <span className="px-3.5 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs font-bold uppercase tracking-wider border border-amber-500/20">
-            Transparent Access
+            Commercial SaaS Platform Plans
           </span>
-          <h2 className="text-3xl font-black text-white">Beta Phase Access</h2>
-          <p className="text-slate-400 text-sm">Free access for early adopter church partners during Beta v1.0</p>
+          <h2 className="text-3xl font-black text-white">Choose Your Ministry Event Package</h2>
+          <p className="text-slate-400 text-sm max-w-xl mx-auto">Select a subscription tier to launch your events with automated gate verification & payment routing.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto gap-6">
 
-          {/* Beta Plan */}
-          <div className="glass-panel p-8 sm:p-10 rounded-3xl border-2 border-brand-500 space-y-6 relative bg-slate-900/90 shadow-2xl">
-            <span className="absolute -top-3 right-6 px-3.5 py-1 rounded-full bg-brand-600 text-white text-[10px] font-extrabold uppercase">
-              Current Beta
-            </span>
-            <h3 className="text-xl font-bold text-white">Beta Partner Access</h3>
-            <div className="flex items-baseline gap-1">
-              <span className="text-4xl font-extrabold text-white">FREE</span>
-              <span className="text-xs text-slate-400">/ event</span>
+          {/* Single Event Pass */}
+          <div className="glass-panel p-7 rounded-3xl border border-slate-800 space-y-6 relative bg-slate-900/80 shadow-xl flex flex-col justify-between">
+            <div className="space-y-4">
+              <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-[10px] font-extrabold uppercase">
+                Single Event Pass
+              </span>
+              <h3 className="text-xl font-bold text-white">Event Pass</h3>
+              <div className="flex items-baseline gap-1">
+                <span className="text-3xl font-extrabold text-white">LKR 10,000</span>
+                <span className="text-xs text-slate-400">/ event</span>
+              </div>
+              <ul className="space-y-2.5 text-xs text-slate-300">
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> 1 Single Event (7-day validity)</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Up to 1,000 Attendees</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> 500 Free SMS Passes (SMSLenz)</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Model B Weekly Bank Payouts</li>
+              </ul>
             </div>
-            <ul className="space-y-3 text-xs text-slate-300">
-              <li className="flex items-center gap-2.5"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Unlimited Registrations</li>
-              <li className="flex items-center gap-2.5"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Android & iOS Scanner App Access</li>
-              <li className="flex items-center gap-2.5"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> SMSLenz SMS Gateway Pass Messages</li>
-              <li className="flex items-center gap-2.5"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Non-Smartphone Manual ID Search</li>
-            </ul>
-            <button onClick={() => setIsRegisterModalOpen(true)} className="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs shadow-lg shadow-brand-600/20">
-              Get Started Now
+            <button
+              onClick={() => { setSelectedPlan('single_event'); setIsSaaSCheckoutOpen(true); }}
+              className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700"
+            >
+              Subscribe Single Event
             </button>
           </div>
 
-          {/* Enterprise Plan */}
-          <div className="glass-panel p-8 sm:p-10 rounded-3xl border border-slate-800 space-y-6 opacity-80 bg-slate-900/50">
-            <span className="px-3.5 py-1 rounded-full bg-slate-800 text-amber-300 text-[10px] font-extrabold uppercase">
-              Coming Soon
+          {/* Monthly Pro Plan (Featured) */}
+          <div className="glass-panel p-8 rounded-3xl border-2 border-brand-500 space-y-6 relative bg-slate-900/95 shadow-2xl flex flex-col justify-between scale-[1.03]">
+            <span className="absolute -top-3.5 right-6 px-4 py-1 rounded-full bg-gradient-to-r from-brand-600 to-indigo-600 text-white text-[10px] font-black uppercase tracking-wider shadow-lg">
+              Most Popular
             </span>
-            <h3 className="text-xl font-bold text-white">Enterprise Ministry</h3>
-            <div className="flex items-baseline gap-1">
-              <span className="text-3xl font-extrabold text-white">Custom</span>
+            <div className="space-y-4">
+              <span className="px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 text-[10px] font-extrabold uppercase">
+                Monthly Pro SaaS
+              </span>
+              <h3 className="text-2xl font-bold text-white">Pro Monthly</h3>
+              <div className="flex items-baseline gap-1">
+                <span className="text-4xl font-extrabold text-white">LKR 15,000</span>
+                <span className="text-xs text-slate-400">/ month</span>
+              </div>
+              <ul className="space-y-2.5 text-xs text-slate-200">
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Unlimited Events (30 days)</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Up to 3,000 Attendees / mo</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> 2,000 Free SMS Passes (SMSLenz)</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Model A PayHere OR Model B Payouts</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Unlimited Gate Scanner Devices</li>
+              </ul>
             </div>
-            <ul className="space-y-3 text-xs text-slate-400">
-              <li className="flex items-center gap-2.5"><Check className="w-4 h-4 text-slate-500 shrink-0" /> Dedicated Self-Service Kiosks</li>
-              <li className="flex items-center gap-2.5"><Check className="w-4 h-4 text-slate-500 shrink-0" /> Custom Domain Integration</li>
-              <li className="flex items-center gap-2.5"><Check className="w-4 h-4 text-slate-500 shrink-0" /> 24/7 Dedicated Support</li>
-            </ul>
+            <button
+              onClick={() => { setSelectedPlan('pro_monthly'); setIsSaaSCheckoutOpen(true); }}
+              className="w-full py-4 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-extrabold text-xs shadow-xl shadow-brand-600/30"
+            >
+              Subscribe Pro Monthly
+            </button>
+          </div>
+
+          {/* Enterprise Annual */}
+          <div className="glass-panel p-7 rounded-3xl border border-slate-800 space-y-6 relative bg-slate-900/80 shadow-xl flex flex-col justify-between">
+            <div className="space-y-4">
+              <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-extrabold uppercase">
+                Annual Enterprise
+              </span>
+              <h3 className="text-xl font-bold text-white">Annual Enterprise</h3>
+              <div className="flex items-baseline gap-1">
+                <span className="text-3xl font-extrabold text-white">LKR 140,000</span>
+                <span className="text-xs text-slate-400">/ year</span>
+              </div>
+              <ul className="space-y-2.5 text-xs text-slate-300">
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-amber-400 shrink-0" /> Unlimited Events & Attendees (365 days)</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-amber-400 shrink-0" /> Dedicated Custom SMS Masking</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-amber-400 shrink-0" /> 10,000 Free SMS Passes</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-amber-400 shrink-0" /> Dedicated 24/7 Gate Kiosk Support</li>
+              </ul>
+            </div>
+            <button
+              onClick={() => { setSelectedPlan('enterprise'); setIsSaaSCheckoutOpen(true); }}
+              className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700"
+            >
+              Subscribe Enterprise
+            </button>
           </div>
 
         </div>
 
       </section>
+
+      {/* Render SaaS Checkout Modal */}
+      <SaaSCheckoutModal
+        isOpen={isSaaSCheckoutOpen}
+        onClose={() => setIsSaaSCheckoutOpen(false)}
+        selectedPlan={selectedPlan}
+      />
 
       {/* ⭐ 8. Testimonials Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">

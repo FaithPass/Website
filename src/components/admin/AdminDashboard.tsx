@@ -1,11 +1,28 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { OrgAdminDashboard } from './OrgAdminDashboard';
 import { LayoutDashboard, Users, Building2, DollarSign, MessageSquareText, UserCheck, Search, Filter, Plus, CheckCircle2, Clock, Smartphone } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
   const { events, churches, registrations, attendanceLogs, smsLogs, performScanAction, resendSms, openPassView, setIsRegisterModalOpen, setActiveView } = useApp();
-  const [activeTab, setActiveTab] = useState<'overview' | 'registrations'>('overview');
+  const [viewMode, setViewMode] = useState<'org_portal' | 'master_dashboard'>('org_portal');
   const [searchQuery, setSearchQuery] = useState('');
+
+  if (viewMode === 'org_portal') {
+    return (
+      <div className="space-y-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 flex justify-end">
+          <button
+            onClick={() => setViewMode('master_dashboard')}
+            className="px-4 py-2 rounded-xl bg-slate-800 text-xs font-bold text-slate-300 hover:text-white"
+          >
+            Switch to Master System Dashboard
+          </button>
+        </div>
+        <OrgAdminDashboard />
+      </div>
+    );
+  }
 
   const activeEvt = events[0];
   const filteredRegs = registrations.filter(r => 
