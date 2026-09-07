@@ -13,6 +13,7 @@ export const RegistrationModal: React.FC = () => {
     openPassView 
   } = useApp();
 
+  const [selectedEventId, setSelectedEventId] = useState<string>(events[0]?.id || 'evt-2027');
   const [type, setType] = useState<'individual' | 'church_group'>('individual');
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
@@ -21,6 +22,8 @@ export const RegistrationModal: React.FC = () => {
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('paid');
 
   if (!isRegisterModalOpen) return null;
+
+  const activeEvt = events.find(e => e.id === selectedEventId) || events[0];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,6 +35,7 @@ export const RegistrationModal: React.FC = () => {
       phone,
       email: email || undefined,
       churchId,
+      eventId: activeEvt.id,
       paymentStatus
     });
 
@@ -42,11 +46,9 @@ export const RegistrationModal: React.FC = () => {
     openPassView(newReg.id);
   };
 
-  const activeEvt = events[0];
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-      <div className="relative w-full max-w-lg glass-panel border border-slate-700 rounded-3xl p-6 sm:p-8 space-y-6">
+      <div className="relative w-full max-w-lg glass-panel border border-slate-700 rounded-3xl p-6 sm:p-8 space-y-6 bg-slate-900 text-white">
         
         <div className="flex items-center justify-between border-b border-slate-800 pb-4">
           <div className="flex items-center gap-2.5">
@@ -60,13 +62,28 @@ export const RegistrationModal: React.FC = () => {
           </div>
           <button
             onClick={() => setIsRegisterModalOpen(false)}
-            className="p-2 rounded-lg text-slate-400 hover:text-white"
+            className="p-2 rounded-lg text-slate-400 hover:text-white bg-slate-800"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          
+          {/* Select Event Gathering Dropdown */}
+          <div>
+            <label className="block text-xs font-bold text-amber-400 mb-1">Select Event Gathering</label>
+            <select
+              value={selectedEventId}
+              onChange={e => setSelectedEventId(e.target.value)}
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+            >
+              {events.map(e => (
+                <option key={e.id} value={e.id}>{e.title} — LKR {e.registrationFee} ({e.city})</option>
+              ))}
+            </select>
+          </div>
+
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
             <input
@@ -75,7 +92,7 @@ export const RegistrationModal: React.FC = () => {
               value={fullName}
               onChange={e => setFullName(e.target.value)}
               required
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
             />
           </div>
 
@@ -87,16 +104,16 @@ export const RegistrationModal: React.FC = () => {
               value={phone}
               onChange={e => setPhone(e.target.value)}
               required
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Select Church</label>
+            <label className="block text-xs font-semibold text-slate-300 mb-1">Select Church / Ministry</label>
             <select
               value={churchId}
               onChange={e => setChurchId(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
             >
               {churches.map(c => (
                 <option key={c.id} value={c.id}>{c.name} ({c.city})</option>

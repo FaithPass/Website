@@ -50,6 +50,7 @@ interface AppContextType {
     phone: string;
     email?: string;
     churchId: string;
+    eventId?: string;
     paymentStatus: PaymentStatus;
   }) => ParticipantRegistration;
   
@@ -146,9 +147,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     phone: string;
     email?: string;
     churchId: string;
+    eventId?: string;
     paymentStatus: PaymentStatus;
   }) => {
-    const activeEvent = events[0];
+    const activeEvent = events.find(e => e.id === data.eventId) || events[0];
     const churchObj = churches.find(c => c.id === data.churchId) || churches[0];
     
     const randomSeq = Math.floor(100000 + Math.random() * 900000);
