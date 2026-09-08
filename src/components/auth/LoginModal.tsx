@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { UserRole } from '../../types';
+import { API_CONFIG } from '../../config/apiConfig';
 import { X, ShieldCheck, Building2, Smartphone, Lock, Mail, Key, ArrowRight, CheckCircle2 } from 'lucide-react';
+
 
 export const LoginModal: React.FC = () => {
   const { isLoginModalOpen, setIsLoginModalOpen, loginAsRole } = useApp();
@@ -32,12 +34,13 @@ export const LoginModal: React.FC = () => {
 
     setIsLoading(true);
     try {
-      // Simulate/Call Backend REST API POST /api/auth/login
-      const response = await fetch('http://localhost:5001/api/auth/login', {
+      // Call Backend REST API POST /api/auth/login
+      const response = await fetch(`${API_CONFIG.BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, role: selectedRole })
       });
+
 
       const data = await response.json();
       if (response.ok && data.success) {

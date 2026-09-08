@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { API_CONFIG } from '../../config/apiConfig';
 import { X, Sparkles, Building2, Phone, Mail, CreditCard, Building, ShieldCheck, CheckCircle2, CheckSquare, Square, Calculator } from 'lucide-react';
+
 
 interface SaaSCheckoutModalProps {
   isOpen: boolean;
@@ -72,8 +74,9 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5001/api/saas/subscribe', {
+      const response = await fetch(`${API_CONFIG.BASE_URL}/api/saas/subscribe`, {
         method: 'POST',
+
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: orgName,
