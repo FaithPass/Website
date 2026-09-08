@@ -556,98 +556,253 @@ export const HomePage: React.FC = () => {
       {/* 💰 7. Pricing Section */}
       <section id="pricing" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 scroll-mt-20">
 
-        <div className="text-center space-y-2">
-          <span className="px-3.5 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs font-bold uppercase tracking-wider border border-amber-500/20">
-            Commercial SaaS Platform Plans
+        <div className="text-center space-y-3">
+          <span className="px-4 py-1.5 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black uppercase tracking-wider border border-amber-500/40 shadow-md">
+            🎉 Founding Customer Offer — Limited Time Launch Prices
           </span>
           <h2 className="text-3xl font-black text-white">Choose Your Ministry Event Package</h2>
-          <p className="text-slate-400 text-sm max-w-xl mx-auto">Select a subscription tier to launch your events with automated gate verification & payment routing.</p>
+          <p className="text-slate-400 text-sm max-w-2xl mx-auto">
+            Select a package for your church gathering. All plans include automated SMS Ticket Passes, QR Gate Check-in, and 95% Bank Payouts.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto gap-6">
+        {/* Pricing Cards Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 max-w-6xl mx-auto gap-6 items-stretch">
 
-          {/* Single Event Pass */}
-          <div className="glass-panel p-7 rounded-3xl border border-slate-800 space-y-6 relative bg-slate-900/80 shadow-xl flex flex-col justify-between">
+          {/* 🟢 Basic Package */}
+          <div className="glass-panel p-7 rounded-3xl border border-slate-800 space-y-6 relative bg-slate-900/80 shadow-xl flex flex-col justify-between hover:border-emerald-500/50 transition-all">
             <div className="space-y-4">
-              <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-[10px] font-extrabold uppercase">
-                Single Event Pass
-              </span>
-              <h3 className="text-xl font-bold text-white">Event Pass</h3>
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-extrabold text-white">LKR 10,000</span>
-                <span className="text-xs text-slate-400">/ event</span>
+              <div className="flex items-center justify-between">
+                <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-extrabold uppercase flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  Basic Tier
+                </span>
+                <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">
+                  Save LKR 2,500
+                </span>
               </div>
-              <ul className="space-y-2.5 text-xs text-slate-300">
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> 1 Single Event (7-day validity)</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Up to 1,000 Attendees</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> 500 Free SMS Passes (SMSLenz)</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Model B Weekly Bank Payouts</li>
+
+              <div>
+                <h3 className="text-2xl font-black text-white">Basic Plan</h3>
+                <p className="text-xs text-slate-400">Up to 300 Participants</p>
+              </div>
+
+              {/* Price Display with Strikethrough */}
+              <div className="space-y-1">
+                <div className="text-xs font-bold text-slate-500 line-through font-mono">LKR 10,000</div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-white">LKR 7,500</span>
+                  <span className="text-xs text-slate-400">/ event</span>
+                </div>
+              </div>
+
+              {/* Included Features */}
+              <ul className="space-y-2.5 text-xs text-slate-300 border-t border-slate-800/80 pt-4">
+                <li className="flex items-center gap-2 font-semibold text-emerald-400">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>400 SMS Credits Included (Reg Confirmation + QR Pass)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Church & Individual Registration</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Unique QR Pass & Mobile Check-in</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Payment Management & Basic Reports</span>
+                </li>
               </ul>
+
+              {/* Optional Add-ons Preview */}
+              <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800/80 space-y-2 text-[11px]">
+                <span className="font-bold text-amber-400 block">Optional SMS Add-ons:</span>
+                <div className="text-slate-400 flex items-center justify-between">
+                  <span>➕ Event Reminder SMS</span>
+                  <strong className="text-white font-mono">+LKR 1,600</strong>
+                </div>
+                <div className="text-slate-400 flex items-center justify-between">
+                  <span>➕ Thank You SMS</span>
+                  <strong className="text-white font-mono">+LKR 1,600</strong>
+                </div>
+              </div>
             </div>
+
             <button
               onClick={() => { setSelectedPlan('single_event'); setIsSaaSCheckoutOpen(true); }}
-              className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700"
+              className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-emerald-600 text-white font-black text-xs border border-slate-700 hover:border-emerald-500 transition-all shadow-md mt-4"
             >
-              Subscribe Single Event
+              Select Basic Plan (LKR 7,500)
             </button>
           </div>
 
-          {/* Monthly Pro Plan (Featured) */}
-          <div className="glass-panel p-8 rounded-3xl border-2 border-brand-500 space-y-6 relative bg-slate-900/95 shadow-2xl flex flex-col justify-between scale-[1.03]">
-            <span className="absolute -top-3.5 right-6 px-4 py-1 rounded-full bg-gradient-to-r from-brand-600 to-indigo-600 text-white text-[10px] font-black uppercase tracking-wider shadow-lg">
-              Most Popular
+          {/* 🔵 Standard Package (⭐ Most Popular) */}
+          <div className="glass-panel p-8 rounded-3xl border-2 border-brand-500 space-y-6 relative bg-slate-900/95 shadow-2xl flex flex-col justify-between scale-[1.03] hover:border-blue-400 transition-all">
+            <span className="absolute -top-3.5 right-6 px-4 py-1 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 text-[10px] font-black uppercase tracking-wider shadow-lg flex items-center gap-1">
+              <Star className="w-3 h-3 fill-slate-950" />
+              ⭐ Most Popular
             </span>
+
             <div className="space-y-4">
-              <span className="px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 text-[10px] font-extrabold uppercase">
-                Monthly Pro SaaS
-              </span>
-              <h3 className="text-2xl font-bold text-white">Pro Monthly</h3>
-              <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-extrabold text-white">LKR 15,000</span>
-                <span className="text-xs text-slate-400">/ month</span>
+              <div className="flex items-center justify-between">
+                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] font-extrabold uppercase flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-400" />
+                  Standard Tier
+                </span>
+                <span className="text-[10px] font-mono font-bold text-amber-400 bg-amber-950/60 px-2.5 py-0.5 rounded border border-amber-800/40">
+                  Save LKR 5,000
+                </span>
               </div>
-              <ul className="space-y-2.5 text-xs text-slate-200">
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Unlimited Events (30 days)</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Up to 3,000 Attendees / mo</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> 2,000 Free SMS Passes (SMSLenz)</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Model A PayHere OR Model B Payouts</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Unlimited Gate Scanner Devices</li>
+
+              <div>
+                <h3 className="text-2xl font-black text-white">Standard Plan</h3>
+                <p className="text-xs text-brand-300 font-semibold">Up to 750 Participants</p>
+              </div>
+
+              {/* Price Display with Strikethrough */}
+              <div className="space-y-1">
+                <div className="text-xs font-bold text-slate-500 line-through font-mono">LKR 20,000</div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-white">LKR 15,000</span>
+                  <span className="text-xs text-slate-400">/ event</span>
+                </div>
+              </div>
+
+              {/* Included Features */}
+              <ul className="space-y-2.5 text-xs text-slate-200 border-t border-slate-800/80 pt-4">
+                <li className="flex items-center gap-2 font-bold text-blue-400">
+                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
+                  <span>850 SMS Credits Included (Reg Confirmation + QR Pass)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Everything in Basic Plan</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Advanced Attendance Reports</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Multi-Volunteer Gate Scanner Support</span>
+                </li>
               </ul>
+
+              {/* Optional Add-ons Preview */}
+              <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800/80 space-y-2 text-[11px]">
+                <span className="font-bold text-amber-400 block">Optional SMS Add-ons:</span>
+                <div className="text-slate-400 flex items-center justify-between">
+                  <span>➕ Event Reminder SMS</span>
+                  <strong className="text-white font-mono">+LKR 3,400</strong>
+                </div>
+                <div className="text-slate-400 flex items-center justify-between">
+                  <span>➕ Thank You SMS</span>
+                  <strong className="text-white font-mono">+LKR 3,400</strong>
+                </div>
+              </div>
             </div>
+
             <button
               onClick={() => { setSelectedPlan('pro_monthly'); setIsSaaSCheckoutOpen(true); }}
-              className="w-full py-4 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-extrabold text-xs shadow-xl shadow-brand-600/30"
+              className="w-full py-4 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-black text-xs shadow-xl shadow-brand-600/30 transition-all hover:scale-[1.02] mt-4"
             >
-              Subscribe Pro Monthly
+              Select Standard Plan (LKR 15,000)
             </button>
           </div>
 
-          {/* Enterprise Annual */}
-          <div className="glass-panel p-7 rounded-3xl border border-slate-800 space-y-6 relative bg-slate-900/80 shadow-xl flex flex-col justify-between">
+          {/* 🟣 Premium Package */}
+          <div className="glass-panel p-7 rounded-3xl border border-slate-800 space-y-6 relative bg-slate-900/80 shadow-xl flex flex-col justify-between hover:border-purple-500/50 transition-all">
             <div className="space-y-4">
-              <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-extrabold uppercase">
-                Annual Enterprise
-              </span>
-              <h3 className="text-xl font-bold text-white">Annual Enterprise</h3>
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-extrabold text-white">LKR 140,000</span>
-                <span className="text-xs text-slate-400">/ year</span>
+              <div className="flex items-center justify-between">
+                <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/30 text-[10px] font-extrabold uppercase flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-400" />
+                  Premium Tier
+                </span>
+                <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-800/40">
+                  Save LKR 7,500
+                </span>
               </div>
-              <ul className="space-y-2.5 text-xs text-slate-300">
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-amber-400 shrink-0" /> Unlimited Events & Attendees (365 days)</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-amber-400 shrink-0" /> Dedicated Custom SMS Masking</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-amber-400 shrink-0" /> 10,000 Free SMS Passes</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-amber-400 shrink-0" /> Dedicated 24/7 Gate Kiosk Support</li>
+
+              <div>
+                <h3 className="text-2xl font-black text-white">Premium Plan</h3>
+                <p className="text-xs text-slate-400">Up to 1,500 Participants</p>
+              </div>
+
+              {/* Price Display with Strikethrough */}
+              <div className="space-y-1">
+                <div className="text-xs font-bold text-slate-500 line-through font-mono">LKR 30,000</div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-white">LKR 22,500</span>
+                  <span className="text-xs text-slate-400">/ event</span>
+                </div>
+              </div>
+
+              {/* Included Features */}
+              <ul className="space-y-2.5 text-xs text-slate-300 border-t border-slate-800/80 pt-4">
+                <li className="flex items-center gap-2 font-bold text-purple-400">
+                  <Check className="w-4 h-4 text-purple-400 shrink-0" />
+                  <span>1,100 SMS Credits Included (Reg Confirmation + QR Pass)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Everything in Standard Plan</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Priority WhatsApp & Email Support</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Enhanced Real-time Gate Dashboard</span>
+                </li>
               </ul>
+
+              {/* Optional Add-ons Preview */}
+              <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800/80 space-y-2 text-[11px]">
+                <span className="font-bold text-amber-400 block">Optional SMS Add-ons:</span>
+                <div className="text-slate-400 flex items-center justify-between">
+                  <span>➕ Event Reminder SMS</span>
+                  <strong className="text-white font-mono">+LKR 4,400</strong>
+                </div>
+                <div className="text-slate-400 flex items-center justify-between">
+                  <span>➕ Thank You SMS</span>
+                  <strong className="text-white font-mono">+LKR 4,400</strong>
+                </div>
+              </div>
             </div>
+
             <button
               onClick={() => { setSelectedPlan('enterprise'); setIsSaaSCheckoutOpen(true); }}
-              className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700"
+              className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-purple-600 text-white font-black text-xs border border-slate-700 hover:border-purple-500 transition-all shadow-md mt-4"
             >
-              Subscribe Enterprise
+              Select Premium Plan (LKR 22,500)
             </button>
           </div>
 
+        </div>
+
+        {/* ⚫ Enterprise Custom Tier Banner */}
+        <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 bg-slate-900/90 max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+          <div className="space-y-2 text-center md:text-left">
+            <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-[10px] font-extrabold uppercase border border-slate-700">
+              ✨ Enterprise (Custom)
+            </span>
+            <h3 className="text-xl font-black text-white">For Mega Events with 1,500+ Participants</h3>
+            <p className="text-xs text-slate-400 max-w-xl">
+              Custom packages with unlimited staff accounts, multiple stadium check-in locations, dedicated on-site kiosk support, and tailored SMS packages.
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              const contactEl = document.getElementById('contact');
+              if (contactEl) contactEl.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs shadow-md shrink-0 transition-all"
+          >
+            Contact Us for Custom Quote
+          </button>
         </div>
 
       </section>

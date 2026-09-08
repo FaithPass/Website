@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Building2, Phone, Mail, CreditCard, Building, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { X, Sparkles, Building2, Phone, Mail, CreditCard, Building, ShieldCheck, CheckCircle2, CheckSquare, Square, Calculator } from 'lucide-react';
 
 interface SaaSCheckoutModalProps {
   isOpen: boolean;
@@ -13,6 +13,10 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
   const [phone, setPhone] = useState('');
   const [paymentRoutingMode, setPaymentRoutingMode] = useState<'central_payout' | 'direct_merchant'>('central_payout');
   
+  // Interactive Optional SMS Add-ons
+  const [addReminderSms, setAddReminderSms] = useState(false);
+  const [addThankYouSms, setAddThankYouSms] = useState(false);
+
   // Bank Payout Account Details (For Model B Central Payouts)
   const [bankName, setBankName] = useState('');
   const [bankBranch, setBankBranch] = useState('');
@@ -24,11 +28,42 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
 
   if (!isOpen) return null;
 
-  const planTitles = {
-    single_event: 'Single Event Pass (LKR 10,000)',
-    pro_monthly: 'Monthly Pro Subscription (LKR 15,000/mo)',
-    enterprise: 'Annual Enterprise Plan (LKR 140,000/yr)'
+  // Tier Details Mapping (Client Pricing & Founding Customer Offer)
+  const planDetails = {
+    single_event: {
+      name: '🟢 Basic Package (Up to 300 Participants)',
+      basePrice: 7500,
+      originalPrice: 10000,
+      saveAmount: 2500,
+      smsCredits: 400,
+      reminderPrice: 1600,
+      thankYouPrice: 1600
+    },
+    pro_monthly: {
+      name: '🔵 Standard Package (Up to 750 Participants)',
+      basePrice: 15000,
+      originalPrice: 20000,
+      saveAmount: 5000,
+      smsCredits: 850,
+      reminderPrice: 3400,
+      thankYouPrice: 3400
+    },
+    enterprise: {
+      name: '🟣 Premium Package (Up to 1,500 Participants)',
+      basePrice: 22500,
+      originalPrice: 30000,
+      saveAmount: 7500,
+      smsCredits: 1100,
+      reminderPrice: 4400,
+      thankYouPrice: 4400
+    }
   };
+
+  const currentTier = planDetails[selectedPlan] || planDetails.pro_monthly;
+
+  // 🧮 Live Dynamic Total Price Calculation
+  const addOnTotal = (addReminderSms ? currentTier.reminderPrice : 0) + (addThankYouSms ? currentTier.thankYouPrice : 0);
+  const grandTotal = currentTier.basePrice + addOnTotal;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,6 +80,10 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
           email,
           phone,
           packageType: selectedPlan,
+          basePrice: currentTier.basePrice,
+          addReminderSms,
+          addThankYouSms,
+          grandTotal,
           paymentRoutingMode,
           bankName,
           bankBranch,
@@ -66,6 +105,7 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
           email,
           phone,
           packageType: selectedPlan,
+          grandTotal,
           paymentRoutingMode
         },
         loginUrl: `https://faithpass.lk/org/${orgName.toLowerCase().replace(/[^a-z0-9]/g, '-')}/dashboard`
@@ -85,15 +125,20 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
         className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto glass-panel border border-slate-700 rounded-3xl p-6 sm:p-8 space-y-6 bg-slate-900/95 text-white shadow-2xl my-auto"
       >
         
-        {/* Header with Prominent Close Button */}
+        {/* Header with Close Button */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-4 sticky top-0 bg-slate-900/95 z-20 pt-1">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Organization SaaS Signup</h3>
-              <p className="text-xs text-amber-300 font-semibold">{planTitles[selectedPlan]}</p>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-black text-white">SaaS Package Checkout</h3>
+                <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-extrabold uppercase border border-amber-500/30">
+                  🎉 Founding Offer
+                </span>
+              </div>
+              <p className="text-xs text-brand-300 font-bold">{currentTier.name}</p>
             </div>
           </div>
           <button 
@@ -118,21 +163,23 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-left text-xs space-y-2">
+            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-left text-xs space-y-2 font-mono">
+              <p className="text-slate-400"><strong className="text-white">Total Amount Paid:</strong> LKR {grandTotal.toLocaleString()}</p>
               <p className="text-slate-400"><strong className="text-white">Admin Login Link:</strong> {successData.loginUrl}</p>
               <p className="text-slate-400"><strong className="text-white">Selected Payment Mode:</strong> {paymentRoutingMode === 'central_payout' ? 'Model B: Central Master Account + Weekly 95% Bank Payouts' : 'Model A: Custom PayHere Merchant Credentials'}</p>
             </div>
 
             <button
               onClick={onClose}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 text-white font-bold text-xs"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 text-white font-bold text-xs shadow-lg"
             >
               Go to Organization Admin Dashboard
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             
+            {/* Organization Info */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">Organization / Ministry Name</label>
@@ -142,7 +189,7 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
                   value={orgName}
                   onChange={e => setOrgName(e.target.value)}
                   required
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:border-brand-500 focus:outline-none"
                 />
               </div>
               <div>
@@ -153,7 +200,7 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
                   value={phone}
                   onChange={e => setPhone(e.target.value)}
                   required
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:border-brand-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -166,8 +213,96 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:border-brand-500 focus:outline-none"
               />
+            </div>
+
+            {/* 📩 INTERACTIVE OPTIONAL SMS ADD-ONS WITH CHECKBOXES */}
+            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                  <Calculator className="w-4 h-4" />
+                  <span>Optional SMS Add-ons:</span>
+                </span>
+                <span className="text-[10px] text-slate-400 font-mono">
+                  Included: {currentTier.smsCredits} SMS Passes
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                {/* Event Reminder Checkbox */}
+                <div 
+                  onClick={() => setAddReminderSms(!addReminderSms)}
+                  className={`p-3 rounded-xl border cursor-pointer flex items-center justify-between text-xs transition-all ${
+                    addReminderSms
+                      ? 'bg-brand-600/20 border-brand-500 text-white shadow-md'
+                      : 'bg-slate-900 border-slate-800/80 text-slate-400 hover:border-slate-700'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    {addReminderSms ? (
+                      <CheckSquare className="w-4 h-4 text-brand-400 shrink-0" />
+                    ) : (
+                      <Square className="w-4 h-4 text-slate-600 shrink-0" />
+                    )}
+                    <div>
+                      <strong className="block text-white text-xs">➕ Add Event Reminder SMS</strong>
+                      <span className="text-[10px] text-slate-400">Automated SMS reminder 24 hours before event</span>
+                    </div>
+                  </div>
+                  <span className="font-mono font-bold text-amber-300 text-xs">+LKR {currentTier.reminderPrice.toLocaleString()}</span>
+                </div>
+
+                {/* Thank You SMS Checkbox */}
+                <div 
+                  onClick={() => setAddThankYouSms(!addThankYouSms)}
+                  className={`p-3 rounded-xl border cursor-pointer flex items-center justify-between text-xs transition-all ${
+                    addThankYouSms
+                      ? 'bg-brand-600/20 border-brand-500 text-white shadow-md'
+                      : 'bg-slate-900 border-slate-800/80 text-slate-400 hover:border-slate-700'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    {addThankYouSms ? (
+                      <CheckSquare className="w-4 h-4 text-brand-400 shrink-0" />
+                    ) : (
+                      <Square className="w-4 h-4 text-slate-600 shrink-0" />
+                    )}
+                    <div>
+                      <strong className="block text-white text-xs">➕ Add Thank You SMS</strong>
+                      <span className="text-[10px] text-slate-400">Automated thank-you SMS after gate check-in</span>
+                    </div>
+                  </div>
+                  <span className="font-mono font-bold text-amber-300 text-xs">+LKR {currentTier.thankYouPrice.toLocaleString()}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 🧮 LIVE TOTAL PRICE CALCULATOR BREAKDOWN SUMMARY */}
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-brand-500/40 space-y-2 text-xs font-mono shadow-inner">
+              <div className="flex justify-between text-slate-400">
+                <span>Base Package ({currentTier.name.split(' ')[1]}):</span>
+                <span>LKR {currentTier.basePrice.toLocaleString()}</span>
+              </div>
+
+              {addReminderSms && (
+                <div className="flex justify-between text-brand-300">
+                  <span>+ Event Reminder SMS:</span>
+                  <span>+LKR {currentTier.reminderPrice.toLocaleString()}</span>
+                </div>
+              )}
+
+              {addThankYouSms && (
+                <div className="flex justify-between text-brand-300">
+                  <span>+ Thank You SMS:</span>
+                  <span>+LKR {currentTier.thankYouPrice.toLocaleString()}</span>
+                </div>
+              )}
+
+              <div className="pt-2 border-t border-slate-800 flex justify-between items-center text-sm font-sans font-black">
+                <span className="text-white">TOTAL PRICE:</span>
+                <span className="text-amber-400 text-lg font-mono font-black">LKR {grandTotal.toLocaleString()}</span>
+              </div>
             </div>
 
             {/* Payment Routing Model Selection (Model A vs Model B) */}
@@ -211,28 +346,28 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
                     placeholder="Bank Name (e.g. Commercial Bank)"
                     value={bankName}
                     onChange={e => setBankName(e.target.value)}
-                    className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white"
+                    className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:border-brand-500 focus:outline-none"
                   />
                   <input
                     type="text"
                     placeholder="Branch (e.g. Kollupitiya)"
                     value={bankBranch}
                     onChange={e => setBankBranch(e.target.value)}
-                    className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white"
+                    className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:border-brand-500 focus:outline-none"
                   />
                   <input
                     type="text"
                     placeholder="Account Number"
                     value={accountNumber}
                     onChange={e => setAccountNumber(e.target.value)}
-                    className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white"
+                    className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:border-brand-500 focus:outline-none"
                   />
                   <input
                     type="text"
                     placeholder="Account Holder Name"
                     value={accountHolderName}
                     onChange={e => setAccountHolderName(e.target.value)}
-                    className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white"
+                    className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:border-brand-500 focus:outline-none"
                   />
                 </div>
               </div>
@@ -249,9 +384,9 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-[2] py-3.5 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-extrabold text-xs shadow-xl shadow-brand-600/20"
+                className="flex-[2] py-3.5 rounded-xl bg-gradient-to-r from-brand-600 via-blue-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-black text-xs shadow-xl shadow-brand-600/20"
               >
-                {loading ? 'Activating Subscription...' : 'Pay & Activate SaaS Account'}
+                {loading ? 'Activating Subscription...' : `Pay LKR ${grandTotal.toLocaleString()} & Activate Account`}
               </button>
             </div>
 
@@ -262,3 +397,4 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
     </div>
   );
 };
+
