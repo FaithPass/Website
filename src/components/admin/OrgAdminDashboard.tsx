@@ -378,19 +378,69 @@ export const OrgAdminDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* TAB 4: GATE ACCESS CODES */}
+      {/* TAB 4: GATE ACCESS CODES & APP DOWNLOAD LINKS */}
       {activeTab === 'gate' && (
-        <div className="glass-panel p-8 rounded-3xl border border-slate-800 bg-slate-900/90 space-y-4 max-w-2xl">
-          <h3 className="text-lg font-bold text-white">Volunteer Mobile Scanner Access Codes</h3>
-          <p className="text-xs text-slate-400">Share this Access Code with gate volunteers so they can log into the Mobile Scanner App on event day.</p>
+        <div className="glass-panel p-8 rounded-3xl border border-slate-800 bg-slate-900/90 space-y-6 max-w-3xl">
+          <div>
+            <h3 className="text-xl font-bold text-white">Volunteer Mobile Scanner Access & App Download</h3>
+            <p className="text-xs text-slate-400">Provide these download links and Access Code to gate volunteers so they can scan attendee QR passes on event day.</p>
+          </div>
           
-          <div className="p-5 rounded-2xl bg-slate-950 border border-brand-500/40 text-center space-y-2">
-            <span className="text-[10px] text-amber-400 uppercase font-bold tracking-wider">Active Event Access Code:</span>
-            <code className="text-3xl font-mono font-black text-white block">ORG-GRACE-GATE1</code>
-            <p className="text-[11px] text-slate-400">Works on any Android or iOS device via FaithPass Scanner App.</p>
+          <div className="p-6 rounded-2xl bg-slate-950 border border-brand-500/40 space-y-4">
+            <div className="text-center space-y-1">
+              <span className="text-[10px] text-amber-400 uppercase font-bold tracking-wider">Active Event Gate Access Code:</span>
+              <code className="text-4xl font-mono font-black text-white block">ORG-GRACE-GATE1</code>
+              <p className="text-xs text-slate-400">Works on any Android or iOS phone via FaithPass Scanner App.</p>
+            </div>
+
+            {/* App Download Buttons */}
+            <div className="pt-2 border-t border-slate-800 space-y-3">
+              <span className="text-xs font-bold text-slate-300 block">Download Scanner App for Volunteers:</span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-bold">
+                <a
+                  href="https://faithpass.lk/download/faithpass-scanner.apk"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 rounded-xl bg-brand-600/20 hover:bg-brand-600/30 border border-brand-500/40 text-brand-300 text-center flex items-center justify-center gap-2 transition-all"
+                >
+                  <Smartphone className="w-4 h-4 text-brand-400" />
+                  <span>Direct APK Download</span>
+                </a>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.faithpass.scanner"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-center flex items-center justify-center gap-2 transition-all"
+                >
+                  <span>🤖 Google Play Store</span>
+                </a>
+                <a
+                  href="https://apps.apple.com/app/faithpass-scanner"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/40 text-blue-300 text-center flex items-center justify-center gap-2 transition-all"
+                >
+                  <span>🍎 Apple App Store</span>
+                </a>
+              </div>
+            </div>
+
+            {/* 1-Click WhatsApp Share to Volunteers */}
+            <div className="pt-2">
+              <button
+                onClick={() => {
+                  const shareMsg = `Hi Gate Volunteers!\nHere is the FaithPass Gate Scanner App link and Access Code for our upcoming event:\n\n📱 Download App: https://faithpass.lk/download/faithpass-scanner.apk\n🔑 Gate Access Code: ORG-GRACE-GATE1\n\nPlease download the app and enter the code before event day. Thank you!`;
+                  window.open(`https://wa.me/?text=${encodeURIComponent(shareMsg)}`, '_blank');
+                }}
+                className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all"
+              >
+                <span>📲 Share App Link & Access Code to Volunteers via WhatsApp</span>
+              </button>
+            </div>
           </div>
         </div>
       )}
+
 
       {/* CREATE EVENT MODAL */}
       {showEventModal && (
