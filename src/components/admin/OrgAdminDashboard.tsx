@@ -72,7 +72,7 @@ export const OrgAdminDashboard: React.FC = () => {
             <div className="flex items-center gap-2 flex-wrap">
               <h1 className="text-2xl font-black text-white">{orgData.name}</h1>
               <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold uppercase">
-                {orgData.packageType.toUpperCase()} SAAS PLAN
+                {orgData.packageType === 'single_event' ? 'Basic (300 Cap)' : orgData.packageType === 'pro_monthly' ? 'Standard (750 Cap)' : 'Premium (1,500 Cap)'} SaaS Plan
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-1">
@@ -90,16 +90,68 @@ export const OrgAdminDashboard: React.FC = () => {
         </button>
       </div>
 
+      {/* 🛡️ Tier Capacity Meter & Feature Access Card */}
+      <div className="p-6 rounded-3xl bg-slate-950/90 border border-slate-800 space-y-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5 uppercase tracking-wider">
+              <Zap className="w-4 h-4 text-amber-400" />
+              <span>SaaS Package Tier Limitations & Access Guards</span>
+            </span>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Enforces capacity limit (300 / 750 / 1,500) and feature access per purchased plan.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-300 font-mono font-bold">
+              Capacity: <strong className="text-white">340</strong> / {orgData.packageType === 'single_event' ? 300 : orgData.packageType === 'pro_monthly' ? 750 : 1500} Attendees
+            </span>
+          </div>
+        </div>
+
+        {/* Capacity Progress Bar */}
+        <div className="w-full bg-slate-900 rounded-full h-3 overflow-hidden border border-slate-800 p-0.5">
+          <div 
+            className="bg-gradient-to-r from-brand-500 via-blue-500 to-emerald-400 h-full rounded-full transition-all duration-500" 
+            style={{ width: `${Math.min(100, (340 / (orgData.packageType === 'single_event' ? 300 : orgData.packageType === 'pro_monthly' ? 750 : 1500)) * 100)}%` }}
+          />
+        </div>
+
+        {/* Unlocked Tier Feature Badges */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-1">
+          <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span className="text-slate-200 text-[11px] font-semibold">Unique QR Passes</span>
+          </div>
+          <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span className="text-slate-200 text-[11px] font-semibold">Automated SMS Pass</span>
+          </div>
+          <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span className="text-slate-200 text-[11px] font-semibold">
+              {orgData.packageType === 'single_event' ? 'Single Volunteer Scanner' : 'Multi-Volunteer Scanner'}
+            </span>
+          </div>
+          <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span className="text-slate-200 text-[11px] font-semibold">
+              {orgData.packageType === 'single_event' ? 'Basic Reports' : 'Advanced Excel Reports'}
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* 📊 Live Metrics Overview Ribbon */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/80 space-y-1">
           <span className="text-xs font-semibold text-slate-400">Total Registrations</span>
-          <strong className="text-2xl sm:text-3xl font-black text-white block">1,450</strong>
+          <strong className="text-2xl sm:text-3xl font-black text-white block">340</strong>
         </div>
 
         <div className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/80 space-y-1">
           <span className="text-xs font-semibold text-slate-400">Gate Checked-In</span>
-          <strong className="text-2xl sm:text-3xl font-black text-emerald-400 block">890</strong>
+          <strong className="text-2xl sm:text-3xl font-black text-emerald-400 block">285</strong>
         </div>
 
         <div className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/80 space-y-1">
@@ -112,6 +164,7 @@ export const OrgAdminDashboard: React.FC = () => {
           <strong className="text-2xl sm:text-3xl font-black text-brand-400 block">LKR {orgData.totalPaidOut.toLocaleString()}</strong>
         </div>
       </div>
+
 
       {/* 🧭 Organization Navigation Tabs */}
       <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto text-xs font-bold">
