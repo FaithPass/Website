@@ -74,9 +74,81 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
     setLoading(true);
 
     try {
+      // Step 1: Generate a unique SaaS Order ID
+      const orderId = `SAAS-${Date.now()}`;
+
+      // Step 2: Get PayHere MD5 Hash from Backend
+      const hashRes = await fetch(`${API_CONFIG.BASE_URL}/api/payhere/hash`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId,
+          amount: grandTotal,
+          currency: 'LKR'
+        })
+      });
+
+      const hashData = await hashRes.json();
+
+      // Step 3: Configure PayHere Payment Object
+      const payment = {
+        sandbox: true,
+        merchant_id: hashData.merchantId,
+        return_url: window.location.origin,
+        cancel_url: window.location.origin,
+        notify_url: `${API_CONFIG.BASE_URL}/api/payhere/notify`,
+        order_id: hashData.orderId,
+        items: `FaithPass SaaS - ${currentTier.name}`,
+        amount: hashData.amount,
+        currency: hashData.currency,
+        hash: hashData.hash,
+        first_name: orgName.split(' ')[0] || orgName,
+        last_name: orgName.split(' ').slice(1).join(' ') || 'Admin',
+        email: email,
+        phone: phone,
+        address: orgName,
+        city: 'Colombo',
+        country: 'Sri Lanka',
+      };
+
+      // Step 4: Launch PayHere Payment Popup via SDK
+      const payhere = (window as any).payhere;
+
+      if (!payhere) {
+        console.error('PayHere SDK not loaded');
+        // Fallback: direct subscription without payment gateway
+        await handleDirectSubscription(orderId);
+        return;
+      }
+
+      payhere.onCompleted = async function onCompleted(orderId: string) {
+        console.log(`✅ PayHere Payment Completed! Order ID: ${orderId}`);
+        await handleDirectSubscription(orderId);
+      };
+
+      payhere.onDismissed = function onDismissed() {
+        console.log('⚠️ PayHere Payment dismissed by user');
+        setLoading(false);
+      };
+
+      payhere.onError = function onError(error: string) {
+        console.error('❌ PayHere Payment Error:', error);
+        setLoading(false);
+      };
+
+      payhere.startPayment(payment);
+
+    } catch (err) {
+      console.log('PayHere hash fetch failed, using fallback:', err);
+      await handleDirectSubscription(`SAAS-${Date.now()}`);
+    }
+  };
+
+  // Handle backend subscription creation (called after PayHere payment success or as fallback)
+  const handleDirectSubscription = async (orderId: string) => {
+    try {
       const response = await fetch(`${API_CONFIG.BASE_URL}/api/saas/subscribe`, {
         method: 'POST',
-
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: orgName,
@@ -91,7 +163,8 @@ export const SaaSCheckoutModal: React.FC<SaaSCheckoutModalProps> = ({ isOpen, on
           bankName,
           bankBranch,
           accountNumber,
-          accountHolderName
+          accountHolderName,
+          payhereOrderId: orderId
         })
       });
 

@@ -398,12 +398,11 @@ export const OrgAdminDashboard: React.FC = () => {
               <span className="text-xs font-bold text-slate-300 block">Download Scanner App for Volunteers:</span>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-bold">
                 <a
-                  href="https://faithpass.lk/download/faithpass-scanner.apk"
-                  target="_blank"
-                  rel="noreferrer"
+                  href="/download/faithpass-scanner.apk"
+                  download="faithpass-scanner.apk"
                   className="p-3 rounded-xl bg-brand-600/20 hover:bg-brand-600/30 border border-brand-500/40 text-brand-300 text-center flex items-center justify-center gap-2 transition-all"
                 >
-                  <Smartphone className="w-4 h-4 text-brand-400" />
+                  <Download className="w-4 h-4 text-brand-400" />
                   <span>Direct APK Download</span>
                 </a>
                 <a
@@ -429,7 +428,8 @@ export const OrgAdminDashboard: React.FC = () => {
             <div className="pt-2">
               <button
                 onClick={() => {
-                  const shareMsg = `Hi Gate Volunteers!\nHere is the FaithPass Gate Scanner App link and Access Code for our upcoming event:\n\n📱 Download App: https://faithpass.lk/download/faithpass-scanner.apk\n🔑 Gate Access Code: ORG-GRACE-GATE1\n\nPlease download the app and enter the code before event day. Thank you!`;
+                  const downloadUrl = `${window.location.origin}/download/faithpass-scanner.apk`;
+                  const shareMsg = `Hi Gate Volunteers!\nHere is the FaithPass Gate Scanner App link and Access Code for our upcoming event:\n\n📱 Download App: ${downloadUrl}\n🔑 Gate Access Code: ORG-GRACE-GATE1\n\nPlease download the app and enter the code before event day. Thank you!`;
                   window.open(`https://wa.me/?text=${encodeURIComponent(shareMsg)}`, '_blank');
                 }}
                 className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all"

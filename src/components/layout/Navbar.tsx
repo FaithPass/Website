@@ -12,7 +12,8 @@ import {
   Smartphone,
   ChevronDown,
   ArrowRight,
-  AppWindow
+  AppWindow,
+  Download
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -196,6 +197,21 @@ export const Navbar: React.FC = () => {
 
                 {appsDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-56 rounded-2xl glass-panel border border-slate-700/80 p-2 shadow-2xl space-y-1 animate-fadeIn z-50">
+                    {currentUser && ['org_admin', 'system_admin'].includes(currentUser.role) && (
+                      <a
+                        href="/download/faithpass-scanner.apk"
+                        download="faithpass-scanner.apk"
+                        onClick={() => setAppsDropdownOpen(false)}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-400 hover:bg-amber-950/50 transition-colors text-left"
+                      >
+                        <Download className="w-4 h-4 text-amber-400" />
+                        <div>
+                          <p className="font-bold text-white">Download Scanner APK</p>
+                          <p className="text-[10px] text-slate-400 font-normal">Org Gate Scanner App</p>
+                        </div>
+                      </a>
+                    )}
+
                     <button
                       onClick={() => {
                         setActiveView('scanner');

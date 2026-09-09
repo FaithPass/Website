@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { OrgAdminDashboard } from './OrgAdminDashboard';
-import { LayoutDashboard, Users, Building2, DollarSign, MessageSquareText, UserCheck, Search, Filter, Plus, CheckCircle2, Clock, Smartphone } from 'lucide-react';
+import { LayoutDashboard, Users, Building2, DollarSign, MessageSquareText, UserCheck, Search, Filter, Plus, CheckCircle2, Clock, Smartphone, Download } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
   const { events, churches, registrations, attendanceLogs, smsLogs, performScanAction, resendSms, openPassView, setIsRegisterModalOpen, setActiveView } = useApp();
@@ -40,6 +40,14 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <a
+            href="/download/faithpass-scanner.apk"
+            download="faithpass-scanner.apk"
+            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-brand-300 font-bold text-xs flex items-center gap-1.5 border border-brand-500/30 transition-colors"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Download APK</span>
+          </a>
           <button
             onClick={() => setActiveView('scanner')}
             className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs"
