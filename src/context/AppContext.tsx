@@ -9,7 +9,8 @@ import {
   UserRole, 
   ScannerMode,
   PaymentStatus,
-  AttendanceStatus
+  AttendanceStatus,
+  DeliveryMode
 } from '../types';
 import { 
   INITIAL_EVENTS, 
@@ -49,10 +50,26 @@ interface AppContextType {
     fullName: string;
     phone: string;
     email?: string;
-    churchId: string;
+    address?: string;
+    district?: string;
+    churchName?: string;
+    pastorName?: string;
+    churchId?: string;
     eventId?: string;
     paymentStatus: PaymentStatus;
   }) => ParticipantRegistration;
+  
+  registerChurchGroup: (data: {
+    churchName: string;
+    pastorName: string;
+    pastorPhone: string;
+    pastorEmail?: string;
+    churchAddress?: string;
+    deliveryMode: DeliveryMode;
+    members: { name: string; phone: string }[];
+    eventId?: string;
+    paymentStatus: PaymentStatus;
+  }) => { groupId: string; pastorRegId: string; registrations: ParticipantRegistration[] };
   
   scannerMode: ScannerMode;
   setScannerMode: (mode: ScannerMode) => void;
@@ -146,12 +163,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     fullName: string;
     phone: string;
     email?: string;
-    churchId: string;
+    address?: string;
+    district?: string;
+    churchName?: string;
+    pastorName?: string;
+    churchId?: string;
     eventId?: string;
     paymentStatus: PaymentStatus;
   }) => {
     const activeEvent = events.find(e => e.id === data.eventId) || events[0];
-    const churchObj = churches.find(c => c.id === data.churchId) || churches[0];
+    const churchObj = churches.find(c => c.id === data.churchId || c.name === data.churchName) || churches[0];
     
     const randomSeq = Math.floor(100000 + Math.random() * 900000);
     const newRegId = `FP-2027-${randomSeq}`;
@@ -164,9 +185,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       fullName: data.fullName,
       phone: data.phone,
       email: data.email,
+      address: data.address,
+      district: data.district,
       churchId: churchObj.id,
-      churchName: churchObj.name,
-      city: churchObj.city,
+      churchName: data.churchName || churchObj.name,
+      city: data.district || churchObj.city,
+      pastorName: data.pastorName || churchObj.pastorName,
       paymentStatus: data.paymentStatus,
       paymentAmount: activeEvent.registrationFee,
       paidAmount: data.paymentStatus === 'paid' ? activeEvent.registrationFee : 0,
@@ -198,6 +222,135 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch (e) {}
 
     return newReg;
+  };
+
+  const registerChurchGroup = (data: {
+    churchName: string;
+    pastorName: string;
+    pastorPhone: string;
+    pastorEmail?: string;
+    churchAddress?: string;
+    deliveryMode: DeliveryMode;
+    members: { name: string; phone: string }[];
+    eventId?: string;
+    paymentStatus: PaymentStatus;
+  }) => {
+    const activeEvent = events.find(e => e.id === data.eventId) || events[0];
+    const groupId = `GRP-FP-2027-${Math.floor(100000 + Math.random() * 900000)}`;
+    const now = new Date().toISOString().split('T')[0];
+    const newRegistrations: ParticipantRegistration[] = [];
+
+    // Pastor Registration Entry
+    const pastorSeq = Math.floor(100000 + Math.random() * 900000);
+    const pastorRegId = `FP-250${pastorSeq.toString().slice(0, 3)}`;
+    const pastorReg: ParticipantRegistration = {
+      id: pastorRegId,
+      eventId: activeEvent.id,
+      eventTitle: activeEvent.title,
+      type: 'church_group',
+      fullName: `Pr. ${data.pastorName} (${data.churchName})`,
+      phone: data.pastorPhone,
+      email: data.pastorEmail,
+      churchId: 'ch-01',
+      churchName: data.churchName,
+      city: 'Group Delegation',
+      pastorName: data.pastorName,
+      pastorPhone: data.pastorPhone,
+      pastorEmail: data.pastorEmail,
+      churchAddress: data.churchAddress,
+      deliveryMode: data.deliveryMode,
+      groupId,
+      isPastor: true,
+      paymentStatus: data.paymentStatus,
+      paymentAmount: activeEvent.registrationFee,
+      paidAmount: data.paymentStatus === 'paid' ? activeEvent.registrationFee : 0,
+      attendanceStatus: 'not_attended',
+      createdAt: now,
+      qrCodeUrl: pastorRegId
+    };
+    newRegistrations.push(pastorReg);
+
+    // Members Registration Entries
+    data.members.forEach((m, idx) => {
+      const seq = Math.floor(100000 + Math.random() * 900000);
+      const memberRegId = `FP-250${(100 + idx).toString()}`;
+      const memberReg: ParticipantRegistration = {
+        id: memberRegId,
+        eventId: activeEvent.id,
+        eventTitle: activeEvent.title,
+        type: 'church_group',
+        fullName: m.name,
+        phone: m.phone || data.pastorPhone,
+        churchId: 'ch-01',
+        churchName: data.churchName,
+        city: 'Group Member',
+        pastorName: data.pastorName,
+        pastorPhone: data.pastorPhone,
+        deliveryMode: data.deliveryMode,
+        groupId,
+        isPastor: false,
+        paymentStatus: data.paymentStatus,
+        paymentAmount: activeEvent.registrationFee,
+        paidAmount: data.paymentStatus === 'paid' ? activeEvent.registrationFee : 0,
+        attendanceStatus: 'not_attended',
+        createdAt: now,
+        qrCodeUrl: memberRegId
+      };
+      newRegistrations.push(memberReg);
+    });
+
+    setRegistrations(prev => [...newRegistrations, ...prev]);
+    setEvents(prev => prev.map(e => e.id === activeEvent.id ? { ...e, totalRegistrations: e.totalRegistrations + newRegistrations.length } : e));
+
+    // Handle SMS Dispatch based on Delivery Mode
+    const masterPassUrl = `https://faithpass.lk/p/${pastorRegId}?group=${groupId}`;
+
+    if (data.deliveryMode === 'pastor_only') {
+      // 1 Single SMS to Pastor
+      const pastorSmsContent = `FaithPass\n${data.churchName} Registered Successfully.\nTotal Members: ${newRegistrations.length}\nRegistration IDs: ${newRegistrations.map(r => r.id).join(', ')}\nView All QR Passes: ${masterPassUrl}`;
+      const pastorSms: SmsLog = {
+        id: `sms-${Date.now()}`,
+        registrationId: pastorRegId,
+        recipientPhone: data.pastorPhone,
+        message: pastorSmsContent,
+        gateway: 'SMSLenz Gateway (Pastor Only)',
+        status: 'delivered',
+        sentAt: new Date().toLocaleTimeString()
+      };
+      setSmsLogs(prev => [pastorSms, ...prev]);
+      setLatestSmsMessage(pastorSms);
+    } else {
+      // Pastor + All Members SMS
+      const pastorSmsContent = `FaithPass\n${data.churchName} Registered Successfully.\nTotal Members: ${newRegistrations.length}\nView Master Dashboard: ${masterPassUrl}`;
+      const pastorSms: SmsLog = {
+        id: `sms-${Date.now()}`,
+        registrationId: pastorRegId,
+        recipientPhone: data.pastorPhone,
+        message: pastorSmsContent,
+        gateway: 'SMSLenz Gateway',
+        status: 'delivered',
+        sentAt: new Date().toLocaleTimeString()
+      };
+
+      const memberSmsLogs: SmsLog[] = newRegistrations.map(r => ({
+        id: `sms-${Date.now()}-${r.id}`,
+        registrationId: r.id,
+        recipientPhone: r.phone,
+        message: `Welcome to FaithPass!\nRegistration ID: ${r.id}\nQR Pass: https://faithpass.lk/p/${r.id}\nEvent: ${activeEvent.title}`,
+        gateway: 'SMSLenz Gateway',
+        status: 'delivered',
+        sentAt: new Date().toLocaleTimeString()
+      }));
+
+      setSmsLogs(prev => [pastorSms, ...memberSmsLogs, ...prev]);
+      setLatestSmsMessage(pastorSms);
+    }
+
+    try {
+      confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+    } catch (e) {}
+
+    return { groupId, pastorRegId, registrations: newRegistrations };
   };
 
   const performScanAction = (registrationId: string, overrideMode?: ScannerMode) => {
@@ -324,6 +477,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isRegisterModalOpen,
         setIsRegisterModalOpen,
         registerParticipant,
+        registerChurchGroup,
         scannerMode,
         setScannerMode,
         selectedGate,

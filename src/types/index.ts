@@ -38,6 +38,13 @@ export type RegistrationType = 'individual' | 'church_group';
 export type PaymentStatus = 'paid' | 'pending' | 'free';
 export type AttendanceStatus = 'not_attended' | 'checked_in' | 'checked_out';
 export type ScannerMode = 'checkin' | 'checkout' | 'payment';
+export type DeliveryMode = 'pastor_only' | 'pastor_and_members';
+
+export interface ChurchMemberInput {
+  id: string;
+  name: string;
+  phone: string;
+}
 
 export interface ParticipantRegistration {
   id: string; // e.g. FP-2027-004582
@@ -47,9 +54,18 @@ export interface ParticipantRegistration {
   fullName: string;
   phone: string;
   email?: string;
+  address?: string;
+  district?: string;
   churchId: string;
   churchName: string;
   city: string;
+  pastorName?: string;
+  pastorPhone?: string;
+  pastorEmail?: string;
+  churchAddress?: string;
+  deliveryMode?: DeliveryMode;
+  groupId?: string;
+  isPastor?: boolean;
   paymentStatus: PaymentStatus;
   paymentAmount: number;
   paidAmount: number;
